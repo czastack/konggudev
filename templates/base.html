@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html {% lang False %}>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="shortcut icon" href="{{handler.static_url('favicon.ico')}}" />
+	{% css 'normalize.min, base' %}
+	{%- block head %}{% endblock %}
+	<!--[if lte IE 9]>
+		<script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+		<script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+		{% js 'custom.modernizr' %}
+	<![endif]-->
+</head>
+<body>
+	<div class="wrap">{% block main %}{% endblock %}	</div>
+</body>
+</html>

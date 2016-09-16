@@ -1,0 +1,76 @@
+@import "../../sass/parts.scss";
+@import "backend-parts.scss";
+
+.main-content {
+	overflow: hidden;
+	padding: 15px;
+	.departments {
+		li {
+			width: 11.1%;
+			float: left;
+			padding: 15px;
+			line-height: 1.5;
+			background: #fff;
+			text-align: center;
+			box-sizing: border-box;
+			border-bottom: solid 3px transparent;
+			@extend %ph_depart;
+			&.active {
+				border-color: $active_color;
+			}
+			h2 {
+				margin: 0;
+				font-size: 18px;
+				font-weight: normal;
+			}
+		}
+	}
+	.detail {
+		flex-grow: 1;
+		margin-top: 20px;
+		background-color: #fff;
+		padding: 15px;
+		.actions {
+			text-align: right;
+			margin-bottom: 15px;
+			select {
+				@extend %form-control;
+			}
+		}
+	}
+	#modal-detail {
+		.modal-content {
+			padding: 10px;
+			line-height: 1.5;
+			.label {
+				display: inline-block;
+				width: 120px;
+				margin-right: 5px;
+				text-align: right;
+				&:after {
+					content: '：';
+				}
+			}
+		}
+	}
+}
+
+
+@include phone {
+	%ph_depart {
+		width: 50%;
+		border: solid 1px #ccc;
+		&:last-child:nth-child(odd) {
+			width: 100%;
+		}
+	}
+	#apply-list {
+		td:nth-child(4), td:nth-child(5),
+		th:nth-child(4), th:nth-child(5) {
+			display: none;
+		}
+		.name, .college {
+			min-width: 40px;
+		}
+	}
+}

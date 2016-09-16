@@ -1,0 +1,39 @@
+{% extends handler.url("backend-base.html") %}
+{% block subtitle %}招新部门设置{% endblock %}
+{% block head -%}
+	{{super()}}
+	{% css_js 'backend-apply-setting', handler.appid %}
+{%- endblock %}
+{% block content -%}
+	<ul class="departments">
+	{%- for depart in departments %}
+		{%-if not depart.parent%}
+		<li{%if this_depart.id == depart.id%} class="active"{%endif%}>
+			<a href="?id={{depart.id}}">
+				<h2>{{depart.name}}</h2>
+			</a>
+		</li>
+		{%-endif%}
+	{%- endfor %}
+	</ul>
+	{% if this_depart %}
+	<div class="detail">
+		<div class="btns">
+			<button class="btn-edit">编辑</button>
+			<button class="btn-cancel">取消</button>
+			<button class="btn-submit" form="depart_info">提交</button>
+		</div>
+		<h2>{{this_depart.name}}</h2>
+		<form action="" method="POST" id="depart_info">
+			<div class="row">
+				<span class="label">招新人数</span>
+				<input type="number" name="predict" value="{{this_depart.predict}}" min="10" readonly>
+			</div>
+			<div class="row">
+				<span class="label">招新文案</span>
+				<textarea name="intro" readonly>{{this_depart.intro}}</textarea>
+			</div>
+		</form>
+	</div>
+	{% endif %}
+{%- endblock %}

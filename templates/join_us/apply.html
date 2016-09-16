@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}报名页{% endblock %}
+{% block head %}
+	{% css 'apply', handler.appid %}
+	{% js  'apply', handler.appid %}
+{% endblock %}
+{% block main %}
+
+<h1 class="page_title">报名页</h1>
+<form id="applyform" action="" method="post" target="success">
+	{% include 'form-fields.html' %}
+	<button class="btn_submit transition_color">提交</button>
+</form>
+
+{% endblock %}

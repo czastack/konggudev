@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}二维码生成{% endblock %}
+{% block head %}
+	{% js handler.settings.JQ + ', jquery-qrcode.min' %}
+	<script>
+		$(function(){
+			btn_go.onclick = function(){
+				$("#code").qrcode({ 
+					render: "canvas",
+					width: 200,
+					height:200,
+					text: url.value
+				}); 
+			};
+		});
+	</script>
+{% endblock %}
+{% block main %}
+
+<div>
+	<label>
+		输入URL：
+		<input type="url" id="url" />
+	</label>
+	<button id="btn_go">转换</button>
+</div>
+<div id="code"></div>
+{% endblock %}

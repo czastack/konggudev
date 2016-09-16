@@ -1,0 +1,21 @@
+{% macro modal(header = None) -%}
+	<div class="modal">
+		<div class="modal-dialog">
+			{%if header%}<div class="modal-header">{{header}}</div>{%endif%}
+			<div class="modal-content">{{caller()}}</div>
+		</div>
+	</div>
+{%- endmacro %}
+
+{% macro yes_no_modal(header = None, id = None, yes = '确定', no = '取消') -%}
+	<div class="modal"{%if id%} id="{{id}}"{%endif%}>
+		<div class="modal-dialog">
+			{%if header%}<div class="modal-header">{{header}}</div>{%endif%}
+			<div class="modal-content">{{caller and caller()}}</div>
+			<div class="modal-footer">
+				{%if no%}<span class="modal-flex-btn modal-cancel">{{no}}</span>{%endif%}
+				<span class="modal-flex-btn modal-ok">{{yes}}</span>
+			</div>
+		</div>
+	</div>
+{%- endmacro %}

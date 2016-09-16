@@ -1,0 +1,59 @@
+{% extends handler.url("backend-base.html") %}
+{% block subtitle %}招新报名情况{% endblock %}
+{% block head -%}
+	{{super()}}
+	{%  js settings.JQ %}
+	{%  css_js 'backend-apply-list', handler.appid %}
+{%- endblock %}
+{% block content -%}
+	<ul class="departments">
+	{%- for depart in departments %}
+		{%-if not depart.parent%}
+		<li{%if depart_id == depart.id%} class="active"{%endif%}>
+			<a href="?id={{depart.id}}">
+				<h2>{{depart.name}}</h2>
+				<div><span>{{handler.apply_count(depart)}}</span>/{{depart.predict}}</div>
+			</a>
+		</li>
+		{%-endif%}
+	{%- endfor %}
+	</ul>
+	{% if depart_id %}
+	<div class="detail">
+		<form action="{{handler.action('export')}}" method="post">
+			<div class="actions">
+				<select name="export_type">
+					<option value="1">Excel</option>
+					<option value="2">通讯录</option>
+				</select>
+				<button class="btn-export" title="导出选中的名单">导出</button>
+			</div>
+			<table id="apply-list">
+				<tr>
+					<th><input type="checkbox" id="checkall"></th>
+					<th>#</th><th class="name">姓名</th><th>性别</th><th>年龄</th><th class="college">学院</th><th>电话</th><th>操作</th>
+				</tr>
+			{%- for user in applicants %}
+				<tr>
+					<td><input type="checkbox" name="checked" value="{{user.id}}"></td>
+					<td>{{loop.index}}</td>
+					<td>{{user.name}}</td>
+					<td>{{user.sex}}</td>
+					<td>{{user.age}}</td>
+					<td>{{user.college_abbr}}</td>
+					<td>{{user.phone}}</td>
+					<td uid="{{user.id}}" href="{{handler.action()}}">
+						<input class="btn-info" type="button" value="详情">
+						<input class="btn-del" type="button" value="删除">
+					</td>
+				</tr>
+			{%- else %}
+				<tr><td colspan="8" class="nodata">没有数据</td></tr>
+			{%- endfor %}
+			</table>
+		</form>
+	</div>
+	{% import 'parts.html' as parts %}
+	{{ parts.yes_no_modal('报名详情', 'modal-detail', no=None) }}
+	{% endif %}
+{%- endblock %}

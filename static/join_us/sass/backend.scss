@@ -1,0 +1,97 @@
+@import "../../sass/parts.scss";
+$nav_height: 50px;
+.wrap {
+	background-color: #e9eaec;
+}
+nav {
+	background-color: #fff;
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	@include height_vc($nav_height);
+	h1 {
+		font-size: 18px;
+		margin: 0 20px;
+		font-weight: normal;
+	}
+}
+.main {
+	padding-top: $nav_height;
+	box-sizing: border-box;
+	aside {
+		background-color: #fff;
+		@extend %pc_aside;
+		ul {
+			li {
+				a {
+					display: block;
+					line-height: 45px;
+					padding-left: 20px;
+					&.active, &:hover {
+						background-color: #d7e6fd;
+					}
+					&.active {
+						border-right: solid 5px #33b3f4;
+					}
+				}
+			}
+		}
+	}
+	.main-content {
+		display: flex;
+		box-sizing: border-box;
+		flex-direction: column;
+		overflow: hidden;
+		height: 100%;
+		padding: 15px;
+	}
+}
+table {
+	width: 100%;
+	border-collapse: collapse;
+	tr {
+		border-style: solid;
+		border-color: #ccc;
+		border-width: 1px 0;
+		&:nth-child(odd) {
+			background-color: #f4f4f4;
+		}
+		td, th {
+			padding: 10px;
+		}
+		td {
+			text-align: center;
+		}
+		th {
+			font-weight: normal;
+		}
+	}
+}
+
+
+.btn-info, .btn-export, .btn-edit {
+	@extend %btn-info;
+}
+.btn-del {
+	@extend %btn-danger;
+}
+.btn-submit {
+	@extend %btn-primary;
+}
+.btn-cancel {
+	@extend %btn-default;
+	color: initial;
+    border-color: #ccc;
+}
+
+@include pc {
+	html, body, .wrap, .main {
+		height: 100%;
+	}
+	%pc_aside {
+		float: left;
+		width: 200px;
+		height: 100%;
+	}
+}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}报名页{% endblock %}
+
+{% block head %}
+	{% css 'weui-icon, page_msg' %}
+	{#{% js  'apply', handler.appid %}#}
+	<script>
+	onload = function(){
+		window.opener.applyform.reset();
+		time = 4;
+		(function timer(){
+			rest = time--;
+			timeout.innerHTML = rest;
+			if (rest == 0) 
+				window.close();
+			else
+				setTimeout(timer, 1000)
+		})();
+	}
+	</script>
+{% endblock %}
+
+{% block main %}
+<div class="page_msg">
+	<div><span class="weui_icon_success weui_icon_msg"></span></div>
+	<h2 class="page_title">报名成功，请留意面试通知哦~</h2>
+	<p>窗口<span id="timeout"></span>秒后自动关闭</p>
+</div>
+{% endblock %}

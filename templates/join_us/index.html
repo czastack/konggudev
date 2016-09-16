@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block head %}
+	{% js handler.settings.JQ %}
+{% endblock %}
+{% block main %}
+
+<a href="{{handler.page_url('@apply')}}">立即报名</a>
+{% for dept in departments %}
+	<section>
+		<h2>{{dept.name}}</h2>
+		<p>{{dept.intro}}</p>
+	</section>
+	{% if dept.children %}
+		{% for child in dept.children %}
+			<section class="child">
+				<h2>{{child.name}}</h2>
+				<p>{{child.intro}}</p>
+			</section>
+		{% endfor %}
+	{% endif %}
+{% endfor %}
+
+{% endblock %}

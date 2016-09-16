@@ -1,0 +1,90 @@
+.page_title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#applyform {
+    width: 450px;
+    padding: 10px 20px;
+    margin: 0 auto;
+    @extend %ph_form;
+}
+
+.form-group {
+    margin-top: 10px;
+
+    > label {
+        float: left;
+        min-width: 100px;
+        text-align: right;
+        margin-right: 10px;
+        line-height: 34px;
+        @extend %ph_label;
+    }
+}
+.form-control {
+    color: #555;
+    background-color: #fff;
+    width: 300px;
+    padding: 8px;
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    border: solid 1px #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    &[type=radio] {
+        width: auto;
+    }
+    @extend %ph_control;
+}
+.radiolist {
+    overflow: hidden;
+    line-height: 34px;
+    label {
+        cursor: pointer;
+        display: inline-block;
+        width: 80px;
+    }
+}
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+.btn_submit {
+    cursor: pointer;
+    display: block;
+    background: #238EFA;
+    color: #fff;
+    border-style: none;
+    border-radius: 4px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+    font-family: inherit;
+    text-align: center;
+    margin-top: 30px;
+    margin-left: 110px;
+    width: 300px;
+    &:hover {
+        background: #067cf4;
+    }
+    @extend %ph_control;
+}
+
+.transition_color {
+    @include transition((background-color 0.3s ease 0s, color 0.3s ease 0s));
+}
+
+@include phone {
+    %ph_form {width: auto;}
+    %ph_label {
+        display: block;
+        text-align: left;
+    }
+    %ph_control {
+        width: 100%;
+        margin-left: 0;
+    }
+}

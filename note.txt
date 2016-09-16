@@ -1,0 +1,5 @@
+data = {'qq': '2464851375', 'sex': '男', 'first': 'dev', 'reason': '', 'hobby': '打码', 'age': '18', 'home': '南宁', 'second': 'web', 'phone': '18977957251', 'major': '计网', 'name': '小明', 'college': '计算机与电子信息学院', reason: '想学习编程'}
+
+for (key in data) {
+	applyform[key].value = data[key];
+}

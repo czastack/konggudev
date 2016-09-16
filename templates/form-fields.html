@@ -1,0 +1,8 @@
+{% autoescape false %}
+{%- for name, label, field in form %}
+	<div class="form-group">
+		<label>{{label}}</label>
+		{{field}}
+	</div>
+{%- endfor %}
+{% endautoescape %}

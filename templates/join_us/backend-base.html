@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}后台管理{% endblock %}
+{% block head %}
+	<link rel="shortcut icon" href="{{handler.img_url('favicon.ico')}}" />
+	{% css 'backend', handler.appid %}
+	{% js  settings.JQ %}
+	{% js  'backend', handler.appid %}
+{%- endblock %}
+{% block main %}
+	<nav>
+		<img src="" class="logo">
+		<h1>空谷招新 - <span id="subtitle">{% block subtitle %}{% endblock %}</span></h1>
+	</nav>
+	<div class="main">
+		<aside>
+			<ul id="sidemenu">
+			{%- for menu in menus %}
+				<li><a href="{{handler.page_url(menu.url)}}" {%if self.subtitle() == menu.title %}class="active"{%endif%}>{{menu.title}}</a></li>
+			{%- endfor %}
+			</ul>
+		</aside>
+		<div class="main-content">{% block content %}{% endblock %}</div>
+	</div>
+{% endblock %}

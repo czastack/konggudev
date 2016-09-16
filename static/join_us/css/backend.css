@@ -1,0 +1,96 @@
+.btn-cancel, .btn-submit, .btn-info, .btn-export, .btn-edit, .btn-del {
+  cursor: pointer;
+  color: #fff;
+  border: solid 1px transparent;
+  border-radius: 4px;
+  outline: none;
+  text-align: center;
+  padding: 8px 10px;
+  -webkit-user-select: none; }
+  .btn-cancel:active, .btn-submit:active, .btn-info:active, .btn-export:active, .btn-edit:active, .btn-del:active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
+
+.btn-cancel {
+  background-color: #fff; }
+  .btn-cancel:hover {
+    background-color: #eee; }
+
+.btn-submit {
+  background-color: #337ab7; }
+  .btn-submit:hover {
+    background-color: #286090; }
+
+.btn-info, .btn-export, .btn-edit {
+  background-color: #5bc0de; }
+  .btn-info:hover, .btn-export:hover, .btn-edit:hover {
+    background-color: #31b0d5; }
+
+.btn-del {
+  background-color: #d9534f; }
+  .btn-del:hover {
+    background-color: #c9302c; }
+
+.wrap {
+  background-color: #e9eaec; }
+
+nav {
+  background-color: #fff;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  line-height: 50px; }
+  nav h1 {
+    font-size: 18px;
+    margin: 0 20px;
+    font-weight: normal; }
+
+.main {
+  padding-top: 50px;
+  box-sizing: border-box; }
+  .main aside {
+    background-color: #fff; }
+    .main aside ul li a {
+      display: block;
+      line-height: 45px;
+      padding-left: 20px; }
+      .main aside ul li a.active, .main aside ul li a:hover {
+        background-color: #d7e6fd; }
+      .main aside ul li a.active {
+        border-right: solid 5px #33b3f4; }
+  .main .main-content {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    padding: 15px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse; }
+  table tr {
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px 0; }
+    table tr:nth-child(odd) {
+      background-color: #f4f4f4; }
+    table tr td, table tr th {
+      padding: 10px; }
+    table tr td {
+      text-align: center; }
+    table tr th {
+      font-weight: normal; }
+
+.btn-cancel {
+  color: initial;
+  border-color: #ccc; }
+
+@media (min-width: 1200px) {
+  html, body, .wrap, .main {
+    height: 100%; }
+  .main aside {
+    float: left;
+    width: 200px;
+    height: 100%; } }

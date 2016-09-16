@@ -1,0 +1,56 @@
+.main-content {
+  overflow: hidden;
+  padding: 15px; }
+  .main-content .departments li {
+    width: 11.1%;
+    float: left;
+    padding: 8px;
+    line-height: 1.5;
+    background: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    border-bottom: solid 3px transparent; }
+    .main-content .departments li.active {
+      border-color: #33b3f4; }
+    .main-content .departments li h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: normal; }
+  .main-content .detail {
+    background-color: #fff;
+    flex-grow: 1;
+    padding: 15px;
+    margin-top: 20px; }
+    .main-content .detail .btns {
+      float: right; }
+    .main-content .detail h2 {
+      margin: 0;
+      font-weight: 300; }
+    .main-content .detail form {
+      line-height: 1.5; }
+      .main-content .detail form .row {
+        margin: 10px 0; }
+      .main-content .detail form .label {
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 3px;
+        margin-right: 3px; }
+      .main-content .detail form input, .main-content .detail form textarea {
+        width: 380px;
+        border: solid 1px #ccc;
+        border-radius: 4px;
+        padding-left: 5px;
+        padding-right: 5px; }
+        .main-content .detail form input[readonly], .main-content .detail form textarea[readonly] {
+          border-color: transparent;
+          outline: none; }
+      .main-content .detail form textarea {
+        height: 240px;
+        resize: none; }
+
+@media (max-device-width: 768px), (max-width: 768px) {
+  .main-content .departments li {
+    width: 50%;
+    border: solid 1px #ccc; }
+    .main-content .departments li:last-child:nth-child(odd) {
+      width: 100%; } }
