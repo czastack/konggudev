@@ -1,10 +1,12 @@
 from lib.handler import AssignableHander
+from lib import preference
 from extypes import list_find
-from . import menus, models
+from . import forms, menus, models
 
 class ApplyHandler(AssignableHander):
 	def oninit(self):
 		self.assign('menus', menus.backend_side_menu)
+		self.assign('thismenu', list_find(menus.backend_side_menu, lambda m: m.name == self.route[-1]))
 
 	def setting(self):
 		"""部门招新设置"""
@@ -16,15 +18,34 @@ class ApplyHandler(AssignableHander):
 		else:
 			data = self.get_args(('predict', 'intro'))
 			models.Department.find(id=depart_id).update(data)
-			models.Department.dbcommit()
+			models.dbcommit()
 			models.Department.on_cache_data()
+			return '', 204
+
+	def info(self):
+		applyinfo = preference.load(self, 'applyinfo')
+		if self.is_get:
+			return self.render(form = forms.ApplyInfoForm(applyinfo._data))
+		else:
+			form = forms.ApplyInfoForm(self.request.form)
+			applyinfo.update(form.data)
+			applyinfo.save()
 			return '', 204
 
 	def list(self):
 		"""招新报名列表"""
-		depart_id = self.request.args.get('id', '')
-		applicants = models.Applicant.find(first = depart_id)
-		return self.render(departments = models.Department.cache, applicants = applicants, depart_id = depart_id)
+		if self.is_get:
+			depart_id = self.request.args.get('id', '')
+			# if depart_id == 'wenyu':
+			# 	children = (depart.id for depart in models.Department.cache if depart.parent == 'wenyu')
+			# 	applicants = models.Applicant.query.filter(models.Applicant.first.in_(children))
+			departments = (depart for depart in models.Department.cache if depart.id != 'wenyu')
+			applicants = models.Applicant.find(first = depart_id)
+			return self.render(departments = departments, applicants = applicants, depart_id = depart_id)
+		else:
+			action = self.request.form.get('action')
+			fn = getattr(self, action, None)
+			return fn() if fn else ('', 204)
 
 	def detail(self):
 		"""详细报名信息"""
@@ -66,6 +87,7 @@ class ApplyHandler(AssignableHander):
 			j = 0
 			worksheet.write(i, j, i) # 序号
 			one.to_read()
+			one.id = j + 1
 			for key, value in one:
 				if key in passed:
 					continue
@@ -80,12 +102,20 @@ class ApplyHandler(AssignableHander):
 		fb.seek(0)
 		return fb.read(), 200, {"Content-Type": "application/vnd.ms-excel", "Content-Disposition": "attachment; filename=" + filename}
 
+	def delete(self):
+		checked_id = self.request.form.getlist('checked')
+		if checked_id:
+			# models.Applicant.query.filter(models.Applicant.id.in_(checked_id)).delete(synchronize_session=False)
+			# models.dbcommit()
+			return '', 200, {"Refresh": "0"}
+		return '', 204
+
 	def apply_count(self, depart):
 		"""
 		查询报名的人数
 		:param depart: 部门对象
 		"""
-		return models.Applicant.find(first=depart.id).count()
+		return models.Applicant.find(first=depart.id).with_entities('*').count()
 
 # 首页
 def index_handle(handler):

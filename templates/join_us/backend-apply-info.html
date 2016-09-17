@@ -1,0 +1,14 @@
+{% extends handler.url("backend-base.html") %}
+{% block head -%}
+	{{super()}}
+	{% css 'backend-apply-info', handler.appid %}
+{%- endblock %}
+{% block content -%}
+	<div class="container">
+		<form method="post">
+			{% include 'form-fields.html' %}
+			<button class="btn-submit transition_color">提交</button>
+		</form>
+		<a href="{{handler.page_url('index/apply')}}" class="preview">到报名页查看效果</a>
+	</div>
+{%- endblock %}

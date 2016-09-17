@@ -25,8 +25,8 @@ class User(BaseModel):
 	sex     = Column(db.CHAR(1),   doc="性别")
 	college = Column(String(4),    doc="学院")
 	major   = Column(String(16),   doc="专业")
-	phone   = Column(String(11),   doc="电话", unique=True)
-	qq      = Column(String(16),   doc="QQ",   unique=True)
+	phone   = Column(String(11),   doc="电话")
+	qq      = Column(String(16),   doc="QQ")
 	depart  = Column(String(8),    ForeignKey('department.id'), doc="部门")
 
 class Applicant(BaseModel):

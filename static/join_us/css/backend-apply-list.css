@@ -11,21 +11,22 @@
 .main-content {
   overflow: hidden;
   padding: 15px; }
-  .main-content .departments li {
-    width: 11.1%;
-    float: left;
-    padding: 15px;
-    line-height: 1.5;
-    background: #fff;
-    text-align: center;
-    box-sizing: border-box;
-    border-bottom: solid 3px transparent; }
-    .main-content .departments li.active {
-      border-color: #33b3f4; }
-    .main-content .departments li h2 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: normal; }
+  .main-content .departments {
+    background: #fff; }
+    .main-content .departments li {
+      width: 12.5%;
+      float: left;
+      padding: 15px;
+      line-height: 1.5;
+      text-align: center;
+      box-sizing: border-box;
+      border-bottom: solid 3px transparent; }
+      .main-content .departments li.active {
+        border-color: #33b3f4; }
+      .main-content .departments li h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: normal; }
   .main-content .detail {
     flex-grow: 1;
     margin-top: 20px;
@@ -48,11 +49,20 @@
 @media (max-device-width: 768px), (max-width: 768px) {
   .main-content .departments li {
     width: 50%;
-    border: solid 1px #ccc; }
+    border: solid 1px #ccc;
+    padding-top: 5px;
+    padding-bottom: 5px; }
     .main-content .departments li:last-child:nth-child(odd) {
       width: 100%; }
-  #apply-list td:nth-child(4), #apply-list td:nth-child(5),
-  #apply-list th:nth-child(4), #apply-list th:nth-child(5) {
-    display: none; }
+  .actions button {
+    padding-top: 6px;
+    padding-bottom: 6px; }
+  #apply-list td, #apply-list th {
+    padding: 4px;
+    font-size: 14px; }
+    #apply-list td:nth-child(4), #apply-list td:nth-child(5), #apply-list th:nth-child(4), #apply-list th:nth-child(5) {
+      display: none; }
+    #apply-list td input[type=button], #apply-list th input[type=button] {
+      padding: 3px; }
   #apply-list .name, #apply-list .college {
-    min-width: 40px; } }
+    min-width: 36px; } }

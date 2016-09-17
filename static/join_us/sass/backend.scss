@@ -10,9 +10,15 @@ nav {
 	position: absolute;
 	width: 100%;
 	@include height_vc($nav_height);
+	.logo {
+		float: left;
+		width: 32px;
+		margin: 10px 5px;
+	}
 	h1 {
+		float: left;
 		font-size: 18px;
-		margin: 0 20px;
+		margin: 0;
 		font-weight: normal;
 	}
 }
@@ -73,7 +79,7 @@ table {
 .btn-info, .btn-export, .btn-edit {
 	@extend %btn-info;
 }
-.btn-del {
+.btn-delete {
 	@extend %btn-danger;
 }
 .btn-submit {
@@ -82,7 +88,13 @@ table {
 .btn-cancel {
 	@extend %btn-default;
 	color: initial;
-    border-color: #ccc;
+	border-color: #ccc;
+}
+.form-control {
+	@extend %form-control;
+}
+.form-group {
+	margin-top: 10px;
 }
 
 @include pc {

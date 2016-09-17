@@ -5,12 +5,12 @@
 	overflow: hidden;
 	padding: 15px;
 	.departments {
+		background: #fff;
 		li {
-			width: 11.1%;
+			width: 12.5%;
 			float: left;
 			padding: 15px;
 			line-height: 1.5;
-			background: #fff;
 			text-align: center;
 			box-sizing: border-box;
 			border-bottom: solid 3px transparent;
@@ -60,17 +60,29 @@
 	%ph_depart {
 		width: 50%;
 		border: solid 1px #ccc;
+		padding-top: 5px;
+		padding-bottom: 5px;
 		&:last-child:nth-child(odd) {
 			width: 100%;
 		}
 	}
+	.actions button {
+		padding-top: 6px;
+		padding-bottom: 6px;
+	}
 	#apply-list {
-		td:nth-child(4), td:nth-child(5),
-		th:nth-child(4), th:nth-child(5) {
-			display: none;
+		td, th {
+			padding: 4px;
+			font-size: 14px;
+			&:nth-child(4), &:nth-child(5) {
+				display: none;
+			}
+			input[type=button] {
+				padding: 3px;
+			}
 		}
 		.name, .college {
-			min-width: 40px;
+			min-width: 36px;
 		}
 	}
 }

@@ -5,6 +5,10 @@ String       = db.String
 Integer      = db.Integer
 ForeignKey   = db.ForeignKey
 
+def dbcommit():
+	"""提交数据库改动"""
+	db.session.commit()
+
 class BaseModel(db.Model):
 	__abstract__ = True
 
@@ -19,6 +23,7 @@ class BaseModel(db.Model):
 	@classmethod
 	def cache_data(cls, fn = None):
 		cls.cache = (fn(cls, cls.query) if fn else cls.query).all()
+		db.session.expunge_all()
 
 	@classmethod
 	def copy_column(cls, name):
@@ -31,8 +36,7 @@ class BaseModel(db.Model):
 	
 	@staticmethod
 	def dbcommit():
-		"""提交数据库改动"""
-		db.session.commit()
+		dbcommit()
 
 	def __init__(self, data = None):
 		db.Model.__init__(self)

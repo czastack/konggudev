@@ -1,5 +1,4 @@
 {% extends handler.url("backend-base.html") %}
-{% block subtitle %}招新报名情况{% endblock %}
 {% block head -%}
 	{{super()}}
 	{%  js settings.JQ %}
@@ -8,25 +7,24 @@
 {% block content -%}
 	<ul class="departments">
 	{%- for depart in departments %}
-		{%-if not depart.parent%}
 		<li{%if depart_id == depart.id%} class="active"{%endif%}>
 			<a href="?id={{depart.id}}">
 				<h2>{{depart.name}}</h2>
 				<div><span>{{handler.apply_count(depart)}}</span>/{{depart.predict}}</div>
 			</a>
 		</li>
-		{%-endif%}
 	{%- endfor %}
 	</ul>
 	{% if depart_id %}
 	<div class="detail">
-		<form action="{{handler.action('export')}}" method="post">
+		<form method="post">
 			<div class="actions">
 				<select name="export_type">
 					<option value="1">Excel</option>
 					<option value="2">通讯录</option>
 				</select>
-				<button class="btn-export" title="导出选中的名单">导出</button>
+				<button class="btn-export" name="action" value="export">导出</button>
+				<button class="btn-delete" name="action" value="delete">删除</button>
 			</div>
 			<table id="apply-list">
 				<tr>
@@ -44,7 +42,6 @@
 					<td>{{user.phone}}</td>
 					<td uid="{{user.id}}" href="{{handler.action()}}">
 						<input class="btn-info" type="button" value="详情">
-						<input class="btn-del" type="button" value="删除">
 					</td>
 				</tr>
 			{%- else %}
@@ -55,5 +52,8 @@
 	</div>
 	{% import 'parts.html' as parts %}
 	{{ parts.yes_no_modal('报名详情', 'modal-detail', no=None) }}
+	{% call parts.yes_no_modal('删除', 'modal-delete') %}
+		<h3>确认删除选中的名单？</h3>
+	{% endcall %}
 	{% endif %}
 {%- endblock %}

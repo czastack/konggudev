@@ -23,4 +23,5 @@ $(function(){
 			$detail.cza_modal('show');
 		});
 	});
+	$(".btn-delete").click_confirm('#modal-delete');
 });

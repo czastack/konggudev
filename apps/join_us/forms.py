@@ -1,5 +1,4 @@
 from lib.form import Form, fields
-
 from . import models
  
 class ApplyForm(Form):
@@ -21,5 +20,13 @@ class ApplyForm(Form):
 
 	# college.choices = ('collegelist', tuple(col.name for col in models.College.query))
 	college.choices = tuple((col.id, col.name) for col in models.College.query)
-	first.choices = tuple((depart.id, depart.name) for depart in models.Department.cache)
+	first.choices = tuple((depart.id, depart.name) for depart in models.Department.cache if depart.id != 'wenyu')
 	second.choices = first.choices
+
+class ApplyInfoForm(Form):
+	common_class = 'form-control'
+	interview_time  = fields.Input('面试时间')
+	interview_place = fields.Input('面试地点')
+	consult_time    = fields.Input('咨询时间')
+	consult_place   = fields.Input('咨询地点')
+	result_time     = fields.Input('公示时间')

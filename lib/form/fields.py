@@ -57,6 +57,9 @@ class Checkbox(Input):
 class File(Input):
 	input_type = 'file'
 
+class Date(Input):
+	input_type = 'date'
+
 class Phone(Input):
 	input_type = 'tel'
 	pattern    = '^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}'

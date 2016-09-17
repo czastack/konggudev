@@ -4,11 +4,19 @@
 	{% css_js 'apply', handler.appid %}
 {% endblock %}
 {% block main %}
+<div class="container">
+	<h1 class="page_title">空谷校园网 招新报名表</h1>
+	<form id="applyform" action="" method="post" target="success">
+		{% include 'form-fields.html' %}
+		<button class="btn_submit transition_color">提交</button>
+	</form>
 
-<h1 class="page_title">报名页</h1>
-<form id="applyform" action="" method="post" target="success">
-	{% include 'form-fields.html' %}
-	<button class="btn_submit transition_color">提交</button>
-</form>
-
+	<div class="notice">
+		<h3>报名须知：</h3>
+		<p>1、参加面试的同学请于{{applyinfo.interview_time}}到{{applyinfo.interview_place}}面试。</p>
+		<p>2、{{applyinfo.consult_time}}，我们将在{{applyinfo.consult_place}}设置咨询点，欢迎前来了解空谷。</p>
+		<p>3、报名新闻中心、K-NET中心（文字组），网络中心和研发中心的同学需要参加笔试。请自备签字笔。</p>
+		<p>4、面试结果将于{{applyinfo.result_time}}前后在<a href="http://www.konggu.net">空谷校园网首页</a>及官方微信公众号“空谷校园传媒”及官方微博“空谷校园传媒”。</p>
+	</div>
+</div>
 {% endblock %}
