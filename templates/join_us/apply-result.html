@@ -8,10 +8,15 @@
 		(function timer(){
 			rest = time--;
 			timeout.innerHTML = rest;
-			if (rest == 0) 
-				location.href = document.referrer;
-			else
-				setTimeout(timer, 1000)
+			if (rest == 0) {
+				alert(window.opener);
+				if (window.opener)
+					window.close();
+				else
+					location.href = document.referrer;
+			} else {
+				setTimeout(timer, 1000);
+			}
 		})();
 		if (window.opener){
 			window.opener.applyform.reset();
