@@ -55,7 +55,9 @@ def default(url):
 			action = index() if len(route) < 4 else route[3] # 方法名
 			method = getattr(callee, action, None) or getattr(callee, 'default', None)
 			if method:
-				result = method(callee(route))
+				ins = callee(route)
+				before = getattr(ins, 'before', None)
+				result = (before and before()) or method(ins)
 			else:
 				raise Exception('%s不存在%s方法' % (callee.__name__, action))
 		else:
@@ -63,7 +65,7 @@ def default(url):
 	except Exception as e:
 		import traceback
 		result = traceback.format_exc()
-	if not (isinstance(result, tuple) or isinstance(result, str)):
+	if not (isinstance(result, str) or isinstance(result, tuple) or result.__class__.__name__ == 'Response'):
 		result = str(result)
 	return result
 

@@ -20,8 +20,9 @@
 			}
 			h2 {
 				margin: 0;
-				font-size: 18px;
+				font-size: 1.1em;
 				font-weight: normal;
+				@include max-line(1);
 			}
 		}
 	}
@@ -62,13 +63,18 @@
 		border: solid 1px #ccc;
 		padding-top: 5px;
 		padding-bottom: 5px;
+		font-size: 14px;
 		&:last-child:nth-child(odd) {
 			width: 100%;
 		}
 	}
-	.actions button {
-		padding-top: 6px;
-		padding-bottom: 6px;
+	.detail {
+		button, select {
+			padding: 3px !important;
+		}
+		.actions input {
+			width: 120px;
+		}
 	}
 	#apply-list {
 		td, th {
@@ -76,9 +82,6 @@
 			font-size: 14px;
 			&:nth-child(4), &:nth-child(5) {
 				display: none;
-			}
-			input[type=button] {
-				padding: 3px;
 			}
 		}
 		.name, .college {

@@ -9,7 +9,8 @@ nav {
 	overflow: hidden;
 	position: absolute;
 	width: 100%;
-	@include height_vc($nav_height);
+	height: $nav_height;
+	line-height: $nav_height;
 	.logo {
 		float: left;
 		width: 32px;

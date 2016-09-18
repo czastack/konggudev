@@ -1,0 +1,16 @@
+html {
+	background-color: #e9eaec;
+}
+#loginform {
+	width: 260px;
+	margin: 30px auto;
+	label {
+		display: inline-block;
+		width: 64px;
+	}
+	.btn-submit {
+		margin-top: 20px;
+		margin-bottom: 10px;
+		width: 240px;
+	}
+}

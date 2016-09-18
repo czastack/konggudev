@@ -14,13 +14,13 @@
 			text-align: center;
 			box-sizing: border-box;
 			border-bottom: solid 3px transparent;
-			@extend %ph_depart;
+			@extend %ph_depart, %xsm_depart;
 			&.active {
 				border-color: $active_color;
 			}
 			h2 {
 				margin: 0;
-				font-size: 18px;
+				font-size: 1.1em;
 				font-weight: normal;
 			}
 		}
@@ -40,6 +40,7 @@
 		}
 		form {
 			line-height: 1.5;
+			@extend %ph_form, %xsm_form;
 			.row {
 				margin: 10px 0;
 			}
@@ -68,13 +69,27 @@
 	}
 }
 
-
 @include phone {
 	%ph_depart {
 		width: 50%;
 		border: solid 1px #ccc;
 		&:last-child:nth-child(odd) {
 			width: 100%;
+		}
+	}
+	%ph_form {
+		input, textarea {
+			width: 380px;
+		}
+	}
+}
+@include media(max, w, $xsm) {
+	%xsm_depart {
+		font-size: 14px;
+	}
+	%xsm_form {
+		input, textarea {
+			width: 300px;
 		}
 	}
 }

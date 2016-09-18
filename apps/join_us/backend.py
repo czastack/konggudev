@@ -2,6 +2,16 @@ from lib.handler import AssignableHander
 from lib import preference
 from extypes import list_find
 from . import forms, menus, models
+from flask import redirect
+
+def require_login(func):
+	def _deco(handler):
+		if 'depart_id' in handler.session:
+			return func(handler)
+		# 记录当前路径以便登录后跳转
+		handler.session['refer'] = handler.request.url
+		return redirect(handler.action('login', 2))
+	return _deco
 
 class ApplyHandler(AssignableHander):
 	def oninit(self):
@@ -10,7 +20,7 @@ class ApplyHandler(AssignableHander):
 
 	def setting(self):
 		"""部门招新设置"""
-		depart_id = self.request.args.get('id', '')
+		depart_id = self.get_arg('id', self.session['depart_id'])
 		if self.is_get:
 			departments = models.Department.cache
 			depart = list_find(departments, lambda x: x.id == depart_id)
@@ -35,12 +45,15 @@ class ApplyHandler(AssignableHander):
 	def list(self):
 		"""招新报名列表"""
 		if self.is_get:
-			depart_id = self.request.args.get('id', '')
+			depart_id = self.get_arg('id', self.session['depart_id'])
+			search    = self.get_arg('search')
 			# if depart_id == 'wenyu':
 			# 	children = (depart.id for depart in models.Department.cache if depart.parent == 'wenyu')
 			# 	applicants = models.Applicant.query.filter(models.Applicant.first.in_(children))
 			departments = (depart for depart in models.Department.cache if depart.id != 'wenyu')
 			applicants = models.Applicant.find(first = depart_id)
+			if search:
+				applicants = applicants.filter(models.Applicant.name.like('%' + search + '%'))
 			return self.render(departments = departments, applicants = applicants, depart_id = depart_id)
 		else:
 			action = self.request.form.get('action')
@@ -49,7 +62,7 @@ class ApplyHandler(AssignableHander):
 
 	def detail(self):
 		"""详细报名信息"""
-		applicant_id = self.request.args.get('id', '')
+		applicant_id = self.get_arg('id')
 		applicant = models.Applicant.query.get(applicant_id)
 		del applicant.id
 		del applicant.status
@@ -105,10 +118,14 @@ class ApplyHandler(AssignableHander):
 	def delete(self):
 		checked_id = self.request.form.getlist('checked')
 		if checked_id:
-			# models.Applicant.query.filter(models.Applicant.id.in_(checked_id)).delete(synchronize_session=False)
-			# models.dbcommit()
-			return '', 200, {"Refresh": "0"}
+			models.Applicant.query.filter(models.Applicant.id.in_(checked_id)).delete(synchronize_session=False)
+			models.dbcommit()
+			return self.refresh()
 		return '', 204
+
+	@require_login
+	def before(self):
+		pass
 
 	def apply_count(self, depart):
 		"""
@@ -119,8 +136,20 @@ class ApplyHandler(AssignableHander):
 
 # 首页
 def index_handle(handler):
-	return handler.render()
+	return redirect(handler.action('apply/list'))
 
 # 登录
 def login_handle(handler):
-	return handler.render()
+	if handler.is_get:
+		return handler.render(form = forms.LoginForm())
+	else:
+		import hashlib
+		data = forms.LoginForm(handler.request.form).data
+		if hashlib.md5(data.password.encode()).hexdigest() == '9b24616fd19720464cdd7b32020f89ba':
+			depart = list_find(models.Department.cache, lambda x: x.name == data.username)
+			if depart:
+				refer = handler.session.get('refer', None) or handler.action('apply/list')
+				handler.session['depart_id'] = depart.id
+				del handler.session['refer']
+				return redirect(refer)
+		return handler.refresh()

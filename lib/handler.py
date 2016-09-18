@@ -25,12 +25,11 @@ def direct_render(handler):
 	return handler.render()
 
 class BaseHandler:
-	__slots__ = ('route', 'request')
+	__slots__ = ('route')
+	from flask import request, session
 
 	def __init__(self, route):
 		self.route = tuple(route)
-		from flask import request
-		self.request = request
 
 	def url(self, url, start_with_sep = False):
 		"""
@@ -72,10 +71,23 @@ class BaseHandler:
 		parent = imgdir if at_root else (self.appid + '/' + imgdir)
 		return self.static_url(filename, parent)
 
-	def action(self, name = ''):
+	def action(self, name = '', level = 0):
+		"""
+		生成同级url操作
+		:param level: 保留route层数，0为保留至倒数第二层
+		"""
 		route = list(self.route)
+		if level:
+			del route[level+1:]
 		route[-1] = name
-		return '/' + '/'.join(route)
+		return '/' + '/'.join(route) + settings.FILE_EXT
+
+	def refresh(self):
+		return '', 200, {"Refresh": "0"}
+
+	def get_arg(self, key, default = ''):
+		"""获取参数，包括get和form"""
+		return self.request.values.get(key, default)
 
 	def get_args(self, keys):
 		return {key: self.request.values.get(key, '') for key in keys}

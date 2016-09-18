@@ -17,11 +17,15 @@
 	</ul>
 	{% if depart_id %}
 	<div class="detail">
+		<form id="searchform">
+			<input type="hidden" name="id" value="{{depart_id}}">
+		</form>
 		<form method="post">
 			<div class="actions">
+				<input class="form-control" name="search" value="{{handler.get_arg('search')}}" placeholder="搜索" form="searchform">
 				<select name="export_type">
 					<option value="1">Excel</option>
-					<option value="2">通讯录</option>
+					<!-- <option value="2">通讯录</option> -->
 				</select>
 				<button class="btn-export" name="action" value="export">导出</button>
 				<button class="btn-delete" name="action" value="delete">删除</button>
@@ -41,7 +45,7 @@
 					<td>{{user.college_abbr}}</td>
 					<td>{{user.phone}}</td>
 					<td uid="{{user.id}}" href="{{handler.action()}}">
-						<input class="btn-info" type="button" value="详情">
+						<button class="btn-info" type="button">详情</button>
 					</td>
 				</tr>
 			{%- else %}

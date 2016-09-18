@@ -30,3 +30,9 @@ class ApplyInfoForm(Form):
 	consult_time    = fields.Input('咨询时间')
 	consult_place   = fields.Input('咨询地点')
 	result_time     = fields.Input('公示时间')
+
+class LoginForm(Form):
+	common_class = ApplyForm.common_class
+	common_attrs = ApplyForm.common_attrs
+	username = fields.Input('用户名')
+	password = fields.Password('密码')

@@ -1,11 +1,11 @@
 .container {
-  width: 240px; }
+  width: 300px;
+  text-align: center; }
+
+.form-control {
+  width: 224px; }
 
 .btn-submit {
   margin-top: 20px;
   margin-bottom: 10px;
-  width: 236px; }
-
-.preview {
-  display: block;
-  text-align: center; }
+  width: 240px; }

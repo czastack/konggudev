@@ -3,7 +3,9 @@ from lib import preference
 
 # 展示部门介绍
 def index_handle(handler):
-	return handler.render('index', departments = models.Department.cache)
+	from flask import redirect
+	return redirect(handler.action('apply'))
+	# return handler.render('index', departments = models.Department.cache)
 
 # 填写和处理报名表
 def apply_handle(handler):

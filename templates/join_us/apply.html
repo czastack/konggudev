@@ -5,7 +5,7 @@
 {% endblock %}
 {% block main %}
 <div class="container">
-	<h1 class="page_title">空谷校园网 招新报名表</h1>
+	<h1 class="page_title"><div>空谷校园网</div> 招新报名表</h1>
 	<form id="applyform" action="" method="post" target="success">
 		{% include 'form-fields.html' %}
 		<button class="btn_submit transition_color">提交</button>
@@ -18,5 +18,8 @@
 		<p>3、报名新闻中心、K-NET中心（文字组），网络中心和研发中心的同学需要参加笔试。请自备签字笔。</p>
 		<p>4、面试结果将于{{applyinfo.result_time}}前后在<a href="http://www.konggu.net">空谷校园网首页</a>及官方微信公众号“空谷校园传媒”及官方微博“空谷校园传媒”。</p>
 	</div>
+	<footer>
+		<div class="copyright">空谷校园网 研发中心</div>
+	</footer>
 </div>
 {% endblock %}
