@@ -61,7 +61,8 @@ body {
   .radiolist label {
     cursor: pointer;
     display: inline-block;
-    width: 80px; }
+    width: 80px;
+    text-align: center; }
 
 textarea {
   height: 150px;
