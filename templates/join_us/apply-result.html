@@ -1,11 +1,9 @@
 {% extends "base.html" %}
-{% block title %}报名页{% endblock %}
-
+{% block title %}报名结果{% endblock %}
 {% block head %}
 	{% css 'weui-icon, page_msg' %}
 	<script>
-	onload = function(){
-		window.opener.applyform.reset();
+	window.onload = function(){
 		time = 4;
 		(function timer(){
 			rest = time--;
@@ -15,14 +13,22 @@
 			else
 				setTimeout(timer, 1000)
 		})();
+		if (window.opener){
+			window.opener.applyform.reset();
+			window.opener.onload();
+		}
 	}
 	</script>
 {% endblock %}
-
 {% block main %}
 <div class="page_msg">
+{% if err %}
+	<div><span class="weui_icon_warn weui_icon_msg"></span></div>
+	<h2 class="page_title">报名失败，{{err}}</h2>
+{% else %}
 	<div><span class="weui_icon_success weui_icon_msg"></span></div>
-	<h2 class="page_title">报名成功，请留意面试通知哦~</h2>
+	<h2 class="page_title">报名成功，记得去面试哦~</h2>
+{% endif %}
 	<p>窗口<span id="timeout"></span>秒后自动关闭</p>
 </div>
 {% endblock %}
