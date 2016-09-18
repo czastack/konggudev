@@ -1,15 +1,14 @@
 $(function(){
 	$.fn.cza_modal = function(action){
-		fn = ''
-		if (action == 'show') 
-			fn = 'add';
-		else if (action == 'hide') 
-			fn = 'remove';
-		else
-			return;
-		fn += 'Class'
-		$(document.body)[fn]('modal-open-body');
-		this[fn]('modal-open');
+		if (action == 'show') {
+			if (!$('.modal-open').length) 
+				$(document.body).addClass('modal-open-body');
+			this.addClass('modal-open');
+		} else if (action == 'hide') {
+			this.removeClass('modal-open');
+			if (!$('.modal-open').length) 
+				$(document.body).removeClass('modal-open-body');
+		}
 		return this;
 	};
 	$.fn.click_confirm = function(target, onconfirm){
