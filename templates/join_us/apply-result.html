@@ -9,10 +9,7 @@
 			rest = time--;
 			timeout.innerHTML = rest;
 			if (rest == 0) 
-				if (window.opener)
-					window.close();
-				else
-					location.href = document.referrer;
+				location.href = document.referrer;
 			else
 				setTimeout(timer, 1000)
 		})();
