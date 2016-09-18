@@ -9,17 +9,15 @@
 			rest = time--;
 			timeout.innerHTML = rest;
 			if (rest == 0) {
-				if (window.opener)
-					window.close();
-				else
-					location.reload();
-			} else {
-				setTimeout(timer, 1000);
+				window.close();
+				location.reload();
 			}
+			else
+				setTimeout(timer, 1000)
 		})();
 		if (window.opener){
-			window.opener.applyform.reset();
-			window.opener.onload();
+			opener.applyform.reset();
+			opener.onload();
 		}
 	}
 	</script>
