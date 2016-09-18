@@ -77,9 +77,10 @@ class BaseHandler:
 		:param level: 保留route层数，0为保留至倒数第二层
 		"""
 		route = list(self.route)
-		if level:
-			del route[level+1:]
-		route[-1] = name
+		if name:
+			if level:
+				del route[level+1:]
+			route[-1] = name
 		return '/' + '/'.join(route) + settings.FILE_EXT
 
 	def refresh(self):
