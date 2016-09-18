@@ -9,7 +9,10 @@
 			rest = time--;
 			timeout.innerHTML = rest;
 			if (rest == 0) 
-				window.close();
+				if (window.opener)
+					window.close();
+				else
+					history.go(-1);
 			else
 				setTimeout(timer, 1000)
 		})();
