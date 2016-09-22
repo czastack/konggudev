@@ -104,9 +104,9 @@ class ApplyHandler(AssignableHander):
 		# 写入内容
 		for one in applicants:
 			j = 0
-			worksheet.write(i, j, i) # 序号
+			# worksheet.write(i, j, i) # 序号
 			one.to_read()
-			one.id = j + 1
+			one.id = i
 			for key, value in one:
 				if key in passed:
 					continue
@@ -156,6 +156,6 @@ def login_handle(handler):
 			if depart:
 				refer = handler.session.get('refer', None) or handler.action('apply/list')
 				handler.session['depart_id'] = depart.id
-				del handler.session['refer']
+				handler.session.pop('refer', None)
 				return redirect(refer)
 		return handler.refresh()

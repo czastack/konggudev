@@ -50,7 +50,8 @@ class Applicant(BaseModel):
 		college = self.college_obj
 		self.college = detail and college.name or college.abbr
 		self.first = Department.getname(self.first)
-		self.second = Department.getname(self.second)
+		if self.second:
+			self.second = Department.getname(self.second)
 
 	@property
 	def college_obj(self):
