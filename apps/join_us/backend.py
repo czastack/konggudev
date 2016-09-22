@@ -72,11 +72,17 @@ class ApplyHandler(AssignableHander):
 
 	def export(self):
 		"""导出名单"""
-		checked_id = self.request.form.getlist('checked')
-		applicants = models.Applicant.query.filter(models.Applicant.id.in_(checked_id))
+		export_type = self.request.form.get('export_type')
+		if export_type == "0":
+			applicants  = models.Applicant.query
+			filename    = '全部'
+		else:
+			checked_id  = self.request.form.getlist('checked')
+			applicants  = models.Applicant.query.filter(models.Applicant.id.in_(checked_id))
+			filename = None
 		if not applicants.count():
 			return '', 204
-		filename   = self.request.form.get('filename', None)
+		# filename    = self.request.form.get('filename', None)
 
 		from io import BytesIO
 		from xlsxwriter import Workbook

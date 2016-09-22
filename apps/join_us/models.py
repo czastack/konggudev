@@ -41,7 +41,7 @@ class Applicant(BaseModel):
 	phone   = User.copy_column('phone')
 	qq      = User.copy_column('qq')
 	hobby   = Column(String(64),   doc="特长兴趣爱好")
-	reason  = Column(String(64),   doc="加入原因")
+	reason  = Column(String(255),   doc="加入原因")
 	first   = Column(String(8),    ForeignKey('department.id'), doc="首选部门")
 	second  = Column(String(8),    ForeignKey('department.id'), doc="备选部门")
 
