@@ -2,9 +2,8 @@
 {% block title %}后台管理{% endblock %}
 {% block head %}
 	<link rel="shortcut icon" href="{{handler.img_url('favicon.ico')}}" />
-	{% css 'backend', handler.appid %}
-	{% js  settings.JQ %}
-	{% js  'backend', handler.appid %}
+	{% js settings.JQ %}
+	{% css_js 'backend', handler.appid %}
 {%- endblock %}
 {% block main %}
 	<nav>

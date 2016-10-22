@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}空谷技术博客 - {% endblock %}
+{% block head %}
+	{% js settings.JQ + ', jquery-qrcode.min' %}
+	{% css_js 'blog', True %}
+{% endblock %}
+{% block main %}
+	
+	{% block content %}{% endblock %}
+	<aside class="aside-right">
+		<div class="to_top">回到顶部</div>
+		<div class="qrcode-block">
+			<span>扫码访问</span>
+			<div class="qrcode-wrapper">
+				<div id="qrcode"></div>
+				<em>用手机扫码访问本页</em>
+			</div>
+		</div>
+	</aside>
+{% endblock %}

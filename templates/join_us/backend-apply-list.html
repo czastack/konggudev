@@ -1,8 +1,8 @@
 {% extends handler.url("backend-base.html") %}
 {% block head -%}
 	{{super()}}
-	{%  js settings.JQ %}
-	{%  css_js 'backend-apply-list', handler.appid %}
+	{% js settings.JQ %}
+	{% css_js 'backend-apply-list', handler.appid %}
 {%- endblock %}
 {% block content -%}
 	<ul class="departments">

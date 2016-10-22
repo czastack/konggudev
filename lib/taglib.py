@@ -5,8 +5,6 @@ from jinja2.ext import Extension
 # 只有一个参数的自闭合标签
 class SimSingleTag(Extension):
 	__slots__ = ()
-	def __init__(self, environment):
-		Extension.__init__(self, environment);
 
 	def parse(self, parser):
 		# 要先移到下一个
@@ -24,6 +22,8 @@ class SimSingleTag(Extension):
 class CSS_JS_Tag(SimSingleTag):
 	__slots__ = ()
 	def run(self, handler, files, parent = None):
+		if parent is True:
+			parent = handler.appid
 		parent = (parent + '/' + self.TAG) if parent else self.TAG
 		_url = lambda file: handler.static_url(file, parent) + '.' + self.TAG
 		files = files.split(',')

@@ -1,0 +1,44 @@
+html, body, .wrap {
+  height: 100%; }
+
+body {
+  background-color: #eee; }
+
+.aside-right {
+  position: fixed;
+  z-index: 10;
+  right: 10px;
+  bottom: 64px;
+  width: 36px;
+  background-color: #fff;
+  border-radius: 4px;
+  font-size: 14px; }
+  .aside-right > div {
+    border: 1px dashed #ccd;
+    padding: 2px;
+    cursor: pointer; }
+
+.qrcode-wrapper {
+  position: absolute;
+  right: 100%;
+  bottom: 0;
+  display: none;
+  border: solid 2px #ccd; }
+  .qrcode-wrapper #qrcode {
+    width: 160px;
+    height: 160px;
+    padding: 10px; }
+  .qrcode-wrapper em {
+    display: block;
+    height: 32px;
+    border-top: 1px dashed #ccd;
+    text-align: center;
+    color: #555;
+    line-height: 30px; }
+
+.qrcode-block:hover .qrcode-wrapper {
+  display: block; }
+
+@media (max-device-width: 1200px), (max-width: 1200px) {
+  .qrcode-block {
+    display: none; } }

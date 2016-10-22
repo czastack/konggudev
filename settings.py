@@ -4,6 +4,7 @@ handle_class_suffix = 'Handler'
 JQ = 'jquery-3.1.0.min'
 
 config = {
+	"TEMPLATES_AUTO_RELOAD": True,
 	# sql
 	"SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:root@localhost/join_us?charset=utf8",
 	"SQLALCHEMY_ECHO": False,

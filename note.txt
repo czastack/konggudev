@@ -3,3 +3,13 @@ data = {'qq': '2464851375', 'sex': '男', 'first': 'dev', 'reason': '', 'hobby':
 for (key in data) {
 	applyform[key].value = data[key];
 }
+
+# blog
+## 发表博客
+## 修改博客
+## 登录
+
+file:///media/an/工作/KongGu/2016/newkonggu/2016newKonggu_news/index.html
+file:///media/an/工作/KongGu/2016/newkonggu/空谷动漫网.jpg
+http://vuejs.org/api/#v-bind
+http://localhost:8080/#/news
