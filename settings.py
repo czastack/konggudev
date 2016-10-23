@@ -5,6 +5,7 @@ JQ = 'jquery-3.1.0.min'
 
 config = {
 	"TEMPLATES_AUTO_RELOAD": True,
+	"JSON_AS_ASCII": False,
 	# sql
 	"SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:root@localhost/join_us?charset=utf8",
 	"SQLALCHEMY_ECHO": False,

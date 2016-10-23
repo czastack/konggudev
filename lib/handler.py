@@ -1,4 +1,4 @@
-from flask import render_template as render
+from flask import render_template as render, jsonify
 from main import app
 import settings
 
@@ -27,6 +27,7 @@ def direct_render(handler):
 class BaseHandler:
 	__slots__ = ('route')
 	from flask import request, session
+	json = staticmethod(jsonify)
 
 	def __init__(self, route):
 		self.route = tuple(route)
@@ -113,7 +114,8 @@ class BaseHandler:
 
 	@property
 	def is_ajax(self):
-		return self.request.headers.get('X-Requested-With', '') == 'XMLHttpRequest'
+		# return self.request.headers.get('X-Requested-With', '') == 'XMLHttpRequest'
+		return self.request.is_xhr
 
 class AssignableHander(BaseHandler):
 	__slots__ = ('variable',)
