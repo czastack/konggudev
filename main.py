@@ -40,28 +40,34 @@ def default(url):
 			route[i] = IDX
 	# 调用对应的类或函数
 	try:
-		module = __import__('apps.' + route[0], fromlist=[route[1]]).__dict__[route[1]]
-		# 如果路由只有2层，则调用该模块下的index函数处理
-		# 3层：调用模块下route[1]同名函数处理，
-		# 若未找到，调用模块下default_handler函数处理
-		# 4层：调用模块下的类/方法
-		if isinstance(module, types.ModuleType):
-			callee = handler.get_module_handler(module, index() if len(route) == 2 else route[2], 'default')
+		try:
+			module = __import__('apps.' + route[0], fromlist=[route[1]]).__dict__[route[1]]
+		# except ImportError:
+		# 	result = '模块不存在: ' + route[0]
+		except KeyError:
+			result = '%s模块没有%s函数' % (route[0], route[1])
 		else:
-			callee = module
-		if isinstance(callee, types.FunctionType):
-			result = callee(handler.BaseHandler(route))
-		elif isinstance(callee, type):
-			action = index() if len(route) < 4 else route[3] # 方法名
-			method = getattr(callee, action, None) or getattr(callee, 'default', None)
-			if method:
-				ins = callee(route)
-				before = getattr(ins, 'before', None)
-				result = (before and before()) or method(ins)
+			# 如果路由只有2层，则调用该模块下的index函数处理
+			# 3层：调用模块下route[1]同名函数处理，
+			# 若未找到，调用模块下default_handler函数处理
+			# 4层：调用模块下的类/方法
+			if isinstance(module, types.ModuleType):
+				callee = handler.get_module_handler(module, index() if len(route) == 2 else route[2], 'default')
 			else:
-				raise Exception('%s不存在%s方法' % (callee.__name__, action))
-		else:
-			raise Exception('404')
+				callee = module
+			if isinstance(callee, types.FunctionType):
+				result = callee(handler.BaseHandler(route))
+			elif isinstance(callee, type):
+				action = index() if len(route) < 4 else route[3] # 方法名
+				method = getattr(callee, action, None) or getattr(callee, 'default', None)
+				if method:
+					ins = callee(route)
+					before = getattr(ins, 'before', None)
+					result = (before and before()) or method(ins)
+				else:
+					result = '%s不存在%s方法' % (callee.__name__, action)
+			else:
+				result = '404'
 	except Exception as e:
 		import traceback
 		result = traceback.format_exc()

@@ -1,5 +1,5 @@
 from .fields import Field
-from extypes import Dict
+from lib.extypes import Dict
 
 class FormMetaclass(type):
 	def __new__(cls, name, bases, attrs):

@@ -1,3 +1,3 @@
 from .form import Form
 from .fields import Field
-from extypes import Dict
+from lib.extypes import Dict

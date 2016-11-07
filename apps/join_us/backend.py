@@ -1,6 +1,6 @@
 from lib.handler import AssignableHander
+from lib.extypes import list_find
 from lib import preference
-from extypes import list_find
 from . import forms, menus, models
 from flask import redirect
 

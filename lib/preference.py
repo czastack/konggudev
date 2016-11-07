@@ -1,6 +1,6 @@
 import os
 import json
-from extypes import Dict
+from lib.extypes import Dict
 
 def load(handler, name):
 	"""加载首选项"""

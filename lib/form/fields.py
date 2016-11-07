@@ -1,5 +1,5 @@
 from ..html import html_tag
-from extypes import Dict
+from lib.extypes import Dict
 
 class FieldMetaClass(type):
 	__slots__ = ()
