@@ -14,7 +14,10 @@ def require_login(func):
 	return _deco
 
 class ApplyHandler(AssignableHander):
+
+	@require_login
 	def oninit(self):
+		super().oninit()
 		self.assign('menus', menus.backend_side_menu)
 		self.assign('thismenu', list_find(menus.backend_side_menu, lambda m: m.name == self.route[-1]))
 
@@ -128,10 +131,6 @@ class ApplyHandler(AssignableHander):
 			models.dbcommit()
 			return self.refresh()
 		return '', 204
-
-	@require_login
-	def before(self):
-		pass
 
 	def apply_count(self, depart):
 		"""

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import types, settings
+import settings
 
 app = Flask(__name__)
 # 加载额外配置
@@ -29,51 +29,11 @@ from lib import handler
 
 @app.route('/<path:url>', methods=['GET', 'POST'])
 def default(url):
-	# 1: app, 2: module, 3: function or class, 4: method
-	route = url.split('/', 4)
-	handler.prepare_route(route)
-	IDX = 'index'
-	index = lambda: route.append(IDX) or IDX
-	len(route) == 1 and index()
-	for i in range(len(route)):
-		if not route[i]:
-			route[i] = IDX
-	# 调用对应的类或函数
-	try:
-		try:
-			module = __import__('apps.' + route[0], fromlist=[route[1]]).__dict__[route[1]]
-		# except ImportError:
-		# 	result = '模块不存在: ' + route[0]
-		except KeyError:
-			result = '%s模块没有%s函数' % (route[0], route[1])
-		else:
-			# 如果路由只有2层，则调用该模块下的index函数处理
-			# 3层：调用模块下route[1]同名函数处理，
-			# 若未找到，调用模块下default_handler函数处理
-			# 4层：调用模块下的类/方法
-			if isinstance(module, types.ModuleType):
-				callee = handler.get_module_handler(module, index() if len(route) == 2 else route[2], 'default')
-			else:
-				callee = module
-			if isinstance(callee, types.FunctionType):
-				result = callee(handler.BaseHandler(route))
-			elif isinstance(callee, type):
-				action = index() if len(route) < 4 else route[3] # 方法名
-				method = getattr(callee, action, None) or getattr(callee, 'default', None)
-				if method:
-					ins = callee(route)
-					before = getattr(ins, 'before', None)
-					result = (before and before()) or method(ins)
-				else:
-					result = '%s不存在%s方法' % (callee.__name__, action)
-			else:
-				result = '404'
-	except Exception as e:
-		import traceback
-		result = traceback.format_exc()
-	if not (isinstance(result, str) or isinstance(result, tuple) or result.__class__.__name__ == 'Response'):
-		result = str(result)
-	return result
+	return handler.dispatch(url)
+
+@app.route('/')
+def index():
+	return default('')
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', debug=True, threaded=True)

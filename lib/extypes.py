@@ -1,9 +1,9 @@
-# 确保是字符串类型
 def astr(text):
+	"""确保是字符串类型"""
 	return text if isinstance(text, str) else str(text)
 
-# 是否是列表或元组
 def is_list_or_tuple(var):
+	"""是否是列表或元组"""
 	return isinstance(var, list) or isinstance(var, tuple)
 
 def list_re(li, fn):
@@ -23,9 +23,11 @@ def getif(data, name):
 def popif(data, key):
 	return data.pop(key, None)
 
-# 更新dict全部或指定字段
-# dst: 模板dict, src: 来源dict
 def puts(dst, src, keys = None):
+	"""
+	更新dict全部或指定字段
+	dst: 模板dict, src: 来源dict
+	"""
 	for key in keys or src:
 		dst[key] = src[key]
 
@@ -36,16 +38,16 @@ def puts(dst, src, keys = None):
 # 			return data[key]
 # 	return None
 
-# 方法代理
-def method_proxy(member, key):
-	def fn(self, *args, **kwargs):
-		return getattr(getattr(self, member), key)(*args, **kwargs)
-	return fn
+# def method_proxy(member, key):
+# 	"""方法代理"""
+# 	def fn(self, *args, **kwargs):
+# 		return getattr(getattr(self, member), key)(*args, **kwargs)
+# 	return fn
 
-# 给类添加方法代理
-def add_method_proxy(cls, member, keys):
-	for key in keys:
-		setattr(cls, key, method_proxy(member, key))
+# def add_method_proxy(cls, member, keys):
+# 	"""给类添加方法代理"""
+# 	for key in keys:
+# 		setattr(cls, key, method_proxy(member, key))
 
 class Map(dict):
 	__slots__ = ()
@@ -58,9 +60,11 @@ class Map(dict):
 
 	__puts__ = puts
 
-# data = Dict({'a': 1})
-# print(data.a) # get 1
 class Dict:
+	"""
+	data = Dict({'a': 1})
+	print(data.a) # get 1
+	"""
 	__slots__ = ('_data',)
 
 	def __init__(self, obj = None):
@@ -112,11 +116,13 @@ class Dict:
 
 # add_method_proxy(Dict, '__dict__', ['__str__', '__iter__', '__getitem__', '__setitem__'])
 
-# 接收字典列表
-# datas = Dict([{'a': 1}, {'a': 2}])
-# for data in datas:
-#     print(data.a)
 class Dicts:
+	"""
+	接收字典列表
+	datas = Dict([{'a': 1}, {'a': 2}])
+	for data in datas:
+	    print(data.a)
+	"""
 	__slots__ = ('__ref', 'data')
 
 	def __init__(self, array):

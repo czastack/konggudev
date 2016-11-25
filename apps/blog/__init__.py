@@ -1,5 +1,6 @@
+from .front import DefaultHandler
 
-def upload(handler):
+def upload_handle(handler):
 	if handler.is_get:
 		return handler.render()
 	else:
