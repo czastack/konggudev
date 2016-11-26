@@ -53,7 +53,7 @@ class Map(dict):
 	__slots__ = ()
 
 	def __getattr__(self, name):
-		return self[name] if name in self else None
+		return self.get(name, None)
 
 	def __setattr__(self, name, value):
 		self[name] = value
@@ -86,10 +86,8 @@ class Dict:
 		return self._data.__iter__()
 
 	def __getitem__(self, key):
-		if isinstance(key, tuple):
-			return (self._data[k] for k in key)
-		elif isinstance(key, list):
-			return [self._data[k] for k in key]
+		if is_list_or_tuple(key):
+			return key.__class__(self._data[k] for k in key)
 		return self._data[key]
 
 	def __setitem__(self, key, value):

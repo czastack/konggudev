@@ -1,5 +1,6 @@
 from flask import render_template as render, redirect, jsonify
 from main import app
+from lib import extypes
 import settings, types
 
 
@@ -180,11 +181,10 @@ class BaseHandler:
 		return self.request.values.get(key, default)
 
 	def get_args(self, keys):
-		return {key: self.request.values.get(key, '') for key in keys}
+		return extypes.Map({key: self.request.values.get(key, '') for key in keys})
 
 	def get_args_adv(self, keys):
-		from lib import extypes
-		args = extypes.Map()
+		args = extypes.Dict({})
 		for key in keys:
 			if extypes.is_list_or_tuple(key):
 				key, value_t, default = key
