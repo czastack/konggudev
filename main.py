@@ -1,12 +1,9 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 import settings
 
 app = Flask(__name__)
 # 加载额外配置
 app.config.update(settings.config)
-# 初始化数据库连接
-db = SQLAlchemy(app, session_options={"autoflush": False})
 
 if __name__ == '__main__':
 	import sys

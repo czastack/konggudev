@@ -1,69 +1,32 @@
-from main import db
+import peewee as pw
+import peeweedbevolve
+import settings
 
-Column       = db.Column
-String       = db.String
-Integer      = db.Integer
-ForeignKey   = db.ForeignKey
+def base_model(dbname):
+	"""创建peewee Mysql Model基类"""
+	db = pw.MySQLDatabase(dbname, charset='utf8', **settings.DB)
+	# db.execute_sql("SET NAMES utf8 COLLATE utf8_unicode_ci;")
 
-def dbcommit():
-	"""提交数据库改动"""
-	db.session.commit()
+	class BaseModel(MyBaseModel):
+		class Meta:
+			database = db
 
-class BaseModel(db.Model):
-	__abstract__ = True
+	return BaseModel
 
-	@classmethod
-	def find_one(cls, **kwargs):
-		return cls.find(**kwargs).first()
-
-	@classmethod
-	def find(cls, **kwargs):
-		return cls.query.filter_by(**kwargs)
-
-	@classmethod
-	def cache_data(cls, fn = None):
-		cls.cache = (fn(cls, cls.query) if fn else cls.query).all()
-		db.session.expunge_all()
-
-	@classmethod
-	def copy_column(cls, name):
-		return cls.__table__.c[name].copy()
+class MyBaseModel(pw.Model):
 
 	@classmethod
 	def iterdocs(cls):
-		for key, column in cls.__table__.c.items():
-			yield key, column.doc
-	
-	@staticmethod
-	def dbcommit():
-		dbcommit()
-
-	def __init__(self, data = None):
-		db.Model.__init__(self)
-		if data:
-			self.setdata(data)
-
-	def __repr__(self):
-		return '<%s:%s>' % (self.__class__.__name__, self.name)
+		for key, field in cls._meta.fields.items():
+			yield key, field.verbose_name
 
 	def __iter__(self):
-		for key in self.__table__.c.keys():
+		for key in self._meta.fields.keys():
 			yield key, getattr(self, key)
 
 	def iter_label_value(self):
-		for key, column in self.__table__.c.items():
-			yield column.doc, getattr(self, key)
+		for key, field in self._meta.fields.items():
+			yield field.verbose_name, getattr(self, key)
 
 	def setdata(self, data):
-		for key in data:
-			setattr(self, key, data[key])
-
-	def add_self(self):
-		"""添加自身到数据库修改队列(insert)"""
-		db.session.add(self)
-		return self
-
-	def update_self(self):
-		"""添加自身到数据库修改队列(insert)"""
-		db.session.merge(self)
-		return self
+		self._data.update(data)

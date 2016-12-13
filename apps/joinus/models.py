@@ -1,13 +1,15 @@
-from lib.sql import *
+from lib.sql import base_model, pw
+
+BaseModel = base_model('join_us')
 
 class Department(BaseModel):
-	id      = Column(String(8),    primary_key=True)
-	no      = Column(db.SmallInteger, doc="序号", unique=True)
-	name    = Column(String(8),    doc="部门名称", unique=True)
-	parent  = Column(String(8),    ForeignKey('department.id'), doc="上级部门")
-	intro   = Column(String(255),  doc="部门介绍")
-	direct  = Column(String(32),   doc="招收方向")
-	predict = Column(Integer,      doc="预计招收")
+	id      = pw.CharField(8,    primary_key=True)
+	no      = pw.SmallIntegerField(verbose_name="序号", unique=True)
+	name    = pw.CharField(8,    verbose_name="部门名称", unique=True)
+	parent  = pw.ForeignKeyField(Department, verbose_name="上级部门")
+	intro   = pw.CharField(255,  verbose_name="部门介绍")
+	direct  = pw.CharField(32,   verbose_name="招收方向")
+	predict = pw.IntegerField(verbose_name="预计招收")
 
 	@classmethod
 	def getname(cls, id):
@@ -20,30 +22,30 @@ class Department(BaseModel):
 Department.on_cache_data()
 
 class User(BaseModel):
-	id      = Column(Integer,      primary_key=True)
-	name    = Column(String(16),   doc="姓名")
-	sex     = Column(db.CHAR(1),   doc="性别")
-	college = Column(String(4),    doc="学院")
-	major   = Column(String(16),   doc="专业")
-	phone   = Column(String(11),   doc="电话")
-	qq      = Column(String(16),   doc="QQ")
-	depart  = Column(String(8),    ForeignKey('department.id'), doc="部门")
+	id      = pw.IntegerField(primary_key=True)
+	name    = pw.CharField(16,   verbose_name="姓名")
+	sex     = FixedCharField(1,  verbose_name="性别")
+	college = pw.CharField(4,    verbose_name="学院")
+	major   = pw.CharField(16,   verbose_name="专业")
+	phone   = pw.CharField(11,   verbose_name="电话")
+	qq      = pw.CharField(16,   verbose_name="QQ")
+	depart  = pw.ForeignKeyField(Department, verbose_name="部门")
 
 class Applicant(BaseModel):
-	id      = Column(Integer,      primary_key=True)
-	status  = Column(db.SmallInteger, doc="状态", server_default="0")
-	name    = User.copy_column('name')
-	sex     = User.copy_column('sex')
-	age     = Column(Integer,      doc="年龄")
-	college = User.copy_column('college')
-	major   = User.copy_column('major')
-	home    = Column(String(16),   doc="籍贯")
-	phone   = User.copy_column('phone')
-	qq      = User.copy_column('qq')
-	hobby   = Column(String(64),   doc="特长兴趣爱好")
-	reason  = Column(String(255),   doc="加入原因")
-	first   = Column(String(8),    ForeignKey('department.id'), doc="首选部门")
-	second  = Column(String(8),    ForeignKey('department.id'), doc="备选部门")
+	id      = pw.IntegerField(primary_key=True)
+	status  = pw.SmallIntegerField(verbose_name="状态", default="0")
+	name    = User.name
+	sex     = User.sex
+	age     = pw.IntegerField(verbose_name="年龄")
+	college = User.college
+	major   = User.major
+	home    = pw.CharField(16,   verbose_name="籍贯")
+	phone   = User.phone
+	qq      = User.qq
+	hobby   = pw.CharField(64,   verbose_name="特长兴趣爱好")
+	reason  = pw.CharField(255,  verbose_name="加入原因")
+	first   = pw.ForeignKeyField(Department, verbose_name="首选部门")
+	second  = pw.ForeignKeyField(Department, verbose_name="备选部门")
 
 	def to_read(self, detail = False):
 		"""使更易阅读"""
@@ -62,12 +64,11 @@ class Applicant(BaseModel):
 		return self.college_obj.abbr
 
 class College(BaseModel):
-	id      = Column(String(8),    primary_key=True)
-	name    = Column(String(16),   doc="学院名称", unique=True)
-	abbr    = Column(String(16),   doc="缩写", unique=True)
+	id      = pw.CharField(8,    primary_key=True)
+	name    = pw.CharField(16,   verbose_name="学院名称", unique=True)
+	abbr    = pw.CharField(16,   verbose_name="缩写", unique=True)
 
 class Major(BaseModel):
-	id      = Column(Integer,      primary_key=True)
-	name    = Column(String(32),   doc="专业名称", unique=True)
-	college_id = Column(String(8), ForeignKey('college.id'))
-	college = db.relationship('College', backref=db.backref('majors', lazy='dynamic'))
+	id      = pw.IntegerField(primary_key=True)
+	name    = pw.CharField(32,   verbose_name="专业名称", unique=True)
+	college = pw.ForeignKeyField(College, related_name('majors'))
