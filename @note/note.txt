@@ -8,3 +8,6 @@
 	评论
 	发布
 
+peeweedbevolve.py:596
+if not ('id' not in fields and len(cls._meta.fields) == 1 and 'id' in cls._meta.fields):
+	

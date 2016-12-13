@@ -2,16 +2,24 @@ import peewee as pw
 import peeweedbevolve
 import settings
 
-def base_model(dbname):
+def base_model(dbname=''):
 	"""创建peewee Mysql Model基类"""
 	db = pw.MySQLDatabase(dbname, charset='utf8', **settings.DB)
-	# db.execute_sql("SET NAMES utf8 COLLATE utf8_unicode_ci;")
 
 	class BaseModel(MyBaseModel):
 		class Meta:
 			database = db
 
 	return BaseModel
+
+
+def _extend_peewee():
+	def create_database(self, dbname):
+		self.execute_sql("CREATE DATABASE %s CHARACTER SET utf8 COLLATE utf8_general_ci;" % dbname)
+	pw.MySQLDatabase.create_database = create_database
+
+_extend_peewee()
+del _extend_peewee
 
 class MyBaseModel(pw.Model):
 

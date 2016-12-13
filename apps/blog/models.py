@@ -3,7 +3,7 @@ from lib.sql import base_model, pw
 BaseModel = base_model('blog')
 
 class User(BaseModel):
-	id      = pw.IntegerField(primary_key=True)
+	id      = pw.PrimaryKeyField()
 	name    = pw.CharField(16, verbose_name="用户名")
 	nickname = pw.CharField(16, verbose_name="昵称")
 	gender  = pw.FixedCharField(1, verbose_name="性别")
@@ -11,7 +11,7 @@ class User(BaseModel):
 	email   = pw.CharField(16, verbose_name="邮箱")
 
 class Article(BaseModel):
-	id          = pw.IntegerField(primary_key=True)
+	id          = pw.PrimaryKeyField()
 	author      = pw.ForeignKeyField(User, related_name='articles')
 	create_time = pw.DateTimeField(verbose_name="创建时间")
 	update_time = pw.DateTimeField(verbose_name="更新时间")
@@ -21,7 +21,7 @@ class Article(BaseModel):
 
 
 class ArticleTag(BaseModel):
-	id   = pw.IntegerField(primary_key=True)
+	id   = pw.PrimaryKeyField()
 	name = pw.CharField(16, verbose_name="名称")
 
 
