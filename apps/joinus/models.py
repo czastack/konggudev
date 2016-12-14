@@ -1,30 +1,30 @@
 from lib.sql import base_model, pw
 
-BaseModel = base_model('join_us')
+BaseModel = base_model('joinus')
 
 class Department(BaseModel):
 	id      = pw.CharField(8,    primary_key=True)
 	no      = pw.SmallIntegerField(verbose_name="序号", unique=True)
 	name    = pw.CharField(8,    verbose_name="部门名称", unique=True)
-	parent  = pw.ForeignKeyField(Department, verbose_name="上级部门")
+	parent  = pw.ForeignKeyField('self', verbose_name="上级部门")
 	intro   = pw.CharField(255,  verbose_name="部门介绍")
 	direct  = pw.CharField(32,   verbose_name="招收方向")
 	predict = pw.IntegerField(verbose_name="预计招收")
 
 	@classmethod
 	def getname(cls, id):
-		return cls.find(id=id).with_entities(cls.name)[0][0]
+		return cls.select(cls.name).get(id=id).name
 
 	@classmethod
 	def on_cache_data(cls):
 		cls.cache_data(lambda c,q:q.order_by(c.no))
 
-Department.on_cache_data()
+# Department.on_cache_data()
 
 class User(BaseModel):
-	id      = pw.IntegerField(primary_key=True)
+	id      = pw.PrimaryKeyField
 	name    = pw.CharField(16,   verbose_name="姓名")
-	sex     = FixedCharField(1,  verbose_name="性别")
+	sex     = pw.FixedCharField(1,  verbose_name="性别")
 	college = pw.CharField(4,    verbose_name="学院")
 	major   = pw.CharField(16,   verbose_name="专业")
 	phone   = pw.CharField(11,   verbose_name="电话")
@@ -32,7 +32,7 @@ class User(BaseModel):
 	depart  = pw.ForeignKeyField(Department, verbose_name="部门")
 
 class Applicant(BaseModel):
-	id      = pw.IntegerField(primary_key=True)
+	id      = pw.PrimaryKeyField
 	status  = pw.SmallIntegerField(verbose_name="状态", default="0")
 	name    = User.name
 	sex     = User.sex
@@ -44,7 +44,7 @@ class Applicant(BaseModel):
 	qq      = User.qq
 	hobby   = pw.CharField(64,   verbose_name="特长兴趣爱好")
 	reason  = pw.CharField(255,  verbose_name="加入原因")
-	first   = pw.ForeignKeyField(Department, verbose_name="首选部门")
+	first   = pw.ForeignKeyField(Department, related_name='applicants', verbose_name="首选部门")
 	second  = pw.ForeignKeyField(Department, verbose_name="备选部门")
 
 	def to_read(self, detail = False):
@@ -57,7 +57,7 @@ class Applicant(BaseModel):
 
 	@property
 	def college_obj(self):
-		return College.query.get(self.college)
+		return College.get(id=self.college)
 
 	@property
 	def college_abbr(self):
@@ -69,6 +69,6 @@ class College(BaseModel):
 	abbr    = pw.CharField(16,   verbose_name="缩写", unique=True)
 
 class Major(BaseModel):
-	id      = pw.IntegerField(primary_key=True)
+	id      = pw.PrimaryKeyField
 	name    = pw.CharField(32,   verbose_name="专业名称", unique=True)
-	college = pw.ForeignKeyField(College, related_name('majors'))
+	college = pw.ForeignKeyField(College, related_name='majors')

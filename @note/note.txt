@@ -13,5 +13,7 @@ if not ('id' not in fields and len(cls._meta.fields) == 1 and 'id' in cls._meta.
 	
 User.create(name="xm", nickname="小明", gender="男", phone="12345678910", email="123@qq.com")
 
+select(pw.SQL('*')
+
 n=10
 print('\n'.join((('*' + '**' * i).center(n*2) for i in tuple(range(n)) + (0,) * n)))
