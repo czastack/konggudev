@@ -2,7 +2,7 @@ from lib.form import Form, fields
 from . import models
  
 class ApplyForm(Form):
-	__label__    = lambda k: getattr(models.Applicant, k).doc
+	__label__    = models.Applicant.get_label
 	common_class = 'form-control'
 	common_attrs = {'required': True}
 	name    = fields.Input()
@@ -18,9 +18,9 @@ class ApplyForm(Form):
 	first   = fields.Select()
 	second  = fields.Select()
 
-	# college.choices = ('collegelist', tuple(col.name for col in models.College.query))
-	college.choices = tuple((col.id, col.name) for col in models.College.query)
-	first.choices = tuple((depart.id, depart.name) for depart in models.Department.cache if depart.id != 'wenyu')
+	# college.choices = ('collegelist', tuple(col.name for col in models.College.find()))
+	college.choices = tuple((col.id, col.name) for col in models.College.find())
+	first.choices = tuple((depart.id, depart.name) for depart in models.Department.get_cache() if depart.id != 'wenyu')
 	second.choices = first.choices
 
 class ApplyInfoForm(Form):

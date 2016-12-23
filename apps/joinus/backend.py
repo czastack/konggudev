@@ -25,14 +25,13 @@ class ApplyHandler(AssignableHander):
 		"""部门招新设置"""
 		depart_id = self.get_arg('id', self.session['depart_id'])
 		if self.is_get:
-			departments = models.Department.cache
+			departments = models.Department.get_cache()
 			depart = list_find(departments, lambda x: x.id == depart_id)
 			return self.render(departments = departments, this_depart = depart)
 		else:
 			data = self.get_args(('predict', 'intro'))
-			models.Department.find(id=depart_id).update(data)
-			models.dbcommit()
-			models.Department.on_cache_data()
+			models.Department.update(**data).filter(id=depart_id).execute()
+			models.Department.get_cache(delete=True)
 			return '', 204
 
 	def info(self):
@@ -53,11 +52,11 @@ class ApplyHandler(AssignableHander):
 			# if depart_id == 'wenyu':
 			# 	children = (depart.id for depart in models.Department.cache if depart.parent == 'wenyu')
 			# 	applicants = models.Applicant.query.filter(models.Applicant.first.in_(children))
-			departments = (depart for depart in models.Department.cache if depart.id != 'wenyu')
-			applicants = models.Applicant.find(first = depart_id)
+			departments = (depart for depart in models.Department.get_cache() if depart.id != 'wenyu')
+			applicants = models.Applicant.find().filter(first=depart_id)
 			if search:
-				applicants = applicants.filter(models.Applicant.name.like('%' + search + '%'))
-			return self.render(departments = departments, applicants = applicants, depart_id = depart_id)
+				applicants = applicants.where(models.Applicant.name % '%' + search + '%')
+			return self.render(departments=departments, applicants=applicants, depart_id=depart_id)
 		else:
 			action = self.request.form.get('action')
 			fn = getattr(self, action, None)
@@ -66,7 +65,7 @@ class ApplyHandler(AssignableHander):
 	def detail(self):
 		"""详细报名信息"""
 		applicant_id = self.get_arg('id')
-		applicant = models.Applicant.query.get(applicant_id)
+		applicant = models.Applicant.get(id=applicant_id)
 		del applicant.id
 		del applicant.status
 		applicant.to_read(True)
@@ -76,12 +75,12 @@ class ApplyHandler(AssignableHander):
 	def export(self):
 		"""导出名单"""
 		export_type = self.request.form.get('export_type')
+		applicants  = models.Applicant.find()
 		if export_type == "0":
-			applicants  = models.Applicant.query
 			filename    = '全部'
 		else:
 			checked_id  = self.request.form.getlist('checked')
-			applicants  = models.Applicant.query.filter(models.Applicant.id.in_(checked_id))
+			applicants  = applicants.where(models.Applicant.id << checked_id)
 			filename = None
 		if not applicants.count():
 			return '', 204
@@ -127,8 +126,7 @@ class ApplyHandler(AssignableHander):
 	def delete(self):
 		checked_id = self.request.form.getlist('checked')
 		if checked_id:
-			models.Applicant.query.filter(models.Applicant.id.in_(checked_id)).delete(synchronize_session=False)
-			models.dbcommit()
+			models.Applicant.delete().where(models.Applicant.id << checked_id).execute()
 			return self.refresh()
 		return '', 204
 
@@ -137,7 +135,7 @@ class ApplyHandler(AssignableHander):
 		查询报名的人数
 		:param depart: 部门对象
 		"""
-		return models.Applicant.find(first=depart.id).with_entities('*').count()
+		return models.Applicant.find().filter(first=depart.id).count()
 
 # 首页
 def index_handle(handler):
@@ -151,7 +149,7 @@ def login_handle(handler):
 		import hashlib
 		data = forms.LoginForm(handler.request.form).data
 		if hashlib.md5(data.password.encode()).hexdigest() == '9b24616fd19720464cdd7b32020f89ba':
-			depart = list_find(models.Department.cache, lambda x: x.name == data.username)
+			depart = list_find(models.Department.get_cache(), lambda x: x.name == data.username)
 			if depart:
 				refer = handler.session.get('refer', None) or handler.action('apply/list')
 				handler.session['depart_id'] = depart.id

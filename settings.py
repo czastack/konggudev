@@ -12,6 +12,7 @@ DB = {'host': 'localhost', 'user': 'root', 'passwd': 'root'}
 config = {
 	"TEMPLATES_AUTO_RELOAD": True,
 	"JSON_AS_ASCII": False,
+	"SECRET_KEY": "an_sesstion_secret",
 
 	# sql
 	# "SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:root@localhost/join_us?charset=utf8",

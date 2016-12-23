@@ -39,45 +39,41 @@ def dispatch(url):
 	# 调用对应的类或函数
 	try:
 		route_type = 0
-		try:
-			module = __import__('apps.' + route[0], fromlist=[route[1]])
-			submodule = getattr(module, route[1], None)
-			if isinstance(submodule, types.ModuleType):
-				route_type |= ROUTE_MODULE
-				module = submodule
-		except ImportError:
-			result = '模块不存在: ' + route[0]
-		else:
-			# 如果路由只有2层，则调用该模块下的index函数处理
-			# 3层：调用模块下route[1]同名函数处理，
-			# 若未找到，调用模块下default_handler函数处理
-			# 4层：调用模块下的类/方法
-			lv_module = 1 + (route_type & ROUTE_MODULE) # 模块最低层级
-			lv_class  = 1 + lv_module # 类最低层级
+		module = __import__('apps.' + route[0], fromlist=[route[1]])
+		submodule = getattr(module, route[1], None)
+		if isinstance(submodule, types.ModuleType):
+			route_type |= ROUTE_MODULE
+			module = submodule
+		# 如果路由只有2层，则调用该模块下的index函数处理
+		# 3层：调用模块下route[1]同名函数处理，
+		# 若未找到，调用模块下default_handler函数处理
+		# 4层：调用模块下的类/方法
+		lv_module = 1 + (route_type & ROUTE_MODULE) # 模块最低层级
+		lv_class  = 1 + lv_module # 类最低层级
 
-			name = index() if len(route) == lv_module else route[lv_module]
-			v = lambda n: getattr(module, n, None)
-			callee = v(fn_hname(name)) or v(cls_hname(name)) or v(
-				settings.handle_fn_default) or v(settings.handle_class_default)
-			
-			if isinstance(callee, types.FunctionType):
-				route_type |= ROUTE_FUNC
-				result = callee(BaseHandler(route, route_type))
-			elif isinstance(callee, type):
-				if callee.__name__ == settings.handle_class_default:
-					lv_class -= 1
-				action = index() if len(route) <= lv_class else route[lv_class] # 方法名
-				method = getattr(callee, action, None) or getattr(callee, 'default', None)
-				if method:
-					route_type |= ROUTE_METHOD
-					ins = callee(route, route_type)
-					# 调用类的before方法
-					# before = getattr(ins, 'before', None)
-					result = ins.oninit() or method(ins)
-				else:
-					result = '%s不存在%s方法' % (callee.__name__, action)
+		name = index() if len(route) == lv_module else route[lv_module]
+		v = lambda n: getattr(module, n, None)
+		callee = v(fn_hname(name)) or v(cls_hname(name)) or v(
+			settings.handle_fn_default) or v(settings.handle_class_default)
+		
+		if isinstance(callee, types.FunctionType):
+			route_type |= ROUTE_FUNC
+			result = callee(BaseHandler(route, route_type))
+		elif isinstance(callee, type):
+			if callee.__name__ == settings.handle_class_default:
+				lv_class -= 1
+			action = index() if len(route) <= lv_class else route[lv_class] # 方法名
+			method = getattr(callee, action, None) or getattr(callee, 'default', None)
+			if method:
+				route_type |= ROUTE_METHOD
+				ins = callee(route, route_type)
+				# 调用类的before方法
+				# before = getattr(ins, 'before', None)
+				result = ins.oninit() or method(ins)
 			else:
-				result = '404'
+				result = '%s不存在%s方法' % (callee.__name__, action)
+		else:
+			result = '404'
 	except Exception as e:
 		import traceback
 		result = traceback.format_exc()

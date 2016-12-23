@@ -1,4 +1,4 @@
-from lib.sql import base_model, pw
+from lib.sql import base_model, pw, cache
 
 BaseModel = base_model('joinus')
 
@@ -6,20 +6,19 @@ class Department(BaseModel):
 	id      = pw.CharField(8,    primary_key=True)
 	no      = pw.SmallIntegerField(verbose_name="序号", unique=True)
 	name    = pw.CharField(8,    verbose_name="部门名称", unique=True)
-	parent  = pw.ForeignKeyField('self', verbose_name="上级部门")
+	parent  = pw.ForeignKeyField('self', verbose_name="上级部门", null=True)
 	intro   = pw.CharField(255,  verbose_name="部门介绍")
-	direct  = pw.CharField(32,   verbose_name="招收方向")
-	predict = pw.IntegerField(verbose_name="预计招收")
+	direct  = pw.CharField(32,   verbose_name="招收方向", null=True)
+	predict = pw.IntegerField(verbose_name="预计招收", default=30)
 
 	@classmethod
 	def getname(cls, id):
 		return cls.select(cls.name).get(id=id).name
 
 	@classmethod
-	def on_cache_data(cls):
-		cls.cache_data(lambda c,q:q.order_by(c.no))
-
-# Department.on_cache_data()
+	@cache(15 * 60)
+	def get_cache(cls):
+		return tuple(cls.find().order_by(cls.no))
 
 class User(BaseModel):
 	id      = pw.PrimaryKeyField
@@ -45,7 +44,7 @@ class Applicant(BaseModel):
 	hobby   = pw.CharField(64,   verbose_name="特长兴趣爱好")
 	reason  = pw.CharField(255,  verbose_name="加入原因")
 	first   = pw.ForeignKeyField(Department, related_name='applicants', verbose_name="首选部门")
-	second  = pw.ForeignKeyField(Department, verbose_name="备选部门")
+	second  = pw.ForeignKeyField(Department, verbose_name="备选部门", null=True)
 
 	def to_read(self, detail = False):
 		"""使更易阅读"""
