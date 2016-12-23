@@ -4,7 +4,7 @@ html, body, .wrap {
 	height: 100%;
 }
 body {
-	background-color: #000;
+	
 }
 .aside-right {
 	position: fixed;
@@ -22,33 +22,16 @@ body {
 		cursor: pointer;
 	}
 }
-.qrcode-wrapper {
-	position: absolute;
-	right: 100%;
-	bottom: 0;
-	display: none;
-	border: solid 2px $border_color;
-	#qrcode {
-		width: 160px;
-		height: 160px;
-		padding: 10px;
-	}
-	em {
-		display: block;
-		height: 32px;
-		border-top: 1px dashed $border_color;
-		text-align: center;
-		color: #555;
-		line-height: 30px;
-	}
-}
-.qrcode-block:hover .qrcode-wrapper {
-	display: block;
-}
 .page-header {
 	background-color: #24292c;
 	padding: 10px;
 	overflow: hidden;
+	.header-in {
+        max-width: $lg;
+        padding: 15px 0;
+        margin: 0 auto;
+        overflow: hidden;
+    }
 	nav {
 		float: left;
 		a {
@@ -64,6 +47,7 @@ body {
 	}
 	form.search {
 		float: right;
+		margin-right: 10px;
 		.search {
 			float: left;
 			background: #000;
@@ -96,6 +80,36 @@ body {
 			padding: 5px 8px;
 		}
 	}
+}
+
+.main {
+	width: $lg;
+	margin: 0 auto;
+}
+
+.qrcode-wrapper {
+	position: absolute;
+	right: 100%;
+	bottom: 0;
+	display: none;
+	border: solid 2px $border_color;
+	background-color: #fff;
+	#qrcode {
+		width: 160px;
+		height: 160px;
+		padding: 10px;
+	}
+	em {
+		display: block;
+		height: 32px;
+		border-top: 1px dashed $border_color;
+		text-align: center;
+		color: #555;
+		line-height: 30px;
+	}
+}
+.qrcode-block:hover .qrcode-wrapper {
+	display: block;
 }
 @include ltpc {
 	.qrcode-block {

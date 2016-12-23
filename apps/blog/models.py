@@ -3,12 +3,13 @@ from lib.sql import base_model, pw
 BaseModel = base_model('blog')
 
 class User(BaseModel):
-	id      = pw.PrimaryKeyField()
-	name    = pw.CharField(16, verbose_name="用户名")
-	nickname = pw.CharField(16, verbose_name="昵称")
-	gender  = pw.FixedCharField(1, verbose_name="性别")
-	phone   = pw.CharField(11, verbose_name="电话")
-	email   = pw.CharField(16, verbose_name="邮箱")
+	id       = pw.PrimaryKeyField()
+	username = pw.CharField(16, verbose_name="用户名")
+	password = pw.FixedCharField(40)
+	email    = pw.CharField(32, verbose_name="邮箱")
+	nickname = pw.CharField(16, verbose_name="昵称", null=True)
+	phone    = pw.FixedCharField(11, verbose_name="电话", null=True)
+	gender   = pw.FixedCharField(1, verbose_name="性别", null=True)
 
 class Article(BaseModel):
 	id          = pw.PrimaryKeyField()

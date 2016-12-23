@@ -1,0 +1,50 @@
+.content {
+  background: url("../images/login-bg.png") no-repeat center;
+  background-size: cover;
+  overflow: hidden;
+  position: relative;
+  height: 880px; }
+
+.content-box {
+  width: 300px;
+  height: 364px;
+  background: rgba(180, 180, 180, 0.4);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 18px 20px;
+  z-index: 10;
+  border-radius: 8px; }
+  .content-box h1 {
+    text-align: center;
+    color: #fff;
+    margin: 10px 0;
+    font-size: 24px; }
+  .content-box .text {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #fff;
+    background: #fff;
+    text-indent: 1em;
+    font-size: 14px;
+    padding: 0;
+    box-sizing: border-box;
+    margin-top: 10px; }
+  .content-box .submit {
+    display: block;
+    width: 100%;
+    height: 38px;
+    border: 1px solid #7fa900;
+    margin-top: 30px;
+    background: #7fa900;
+    color: #fff;
+    font-size: 18px;
+    font-family: 'Microsoft YaHei';
+    transition: background 0.4s;
+    cursor: pointer; }
+    .content-box .submit:hover {
+      background: #94cb00; }
+  .content-box .help-text {
+    color: #e00;
+    text-align: center; }

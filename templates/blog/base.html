@@ -6,24 +6,26 @@
 {% endblock %}
 {% block main %}
 	<header class="page-header">
-		<div class="logo"></div>
-		<nav>
-		{%- for item in handler.config.topnav %}
-			<a href="{{handler.action(item[1])}}"{%if item[1]==handler.route[-1]%} class="active"{%endif%}>{{item[0]}}</a>
-		{%- endfor %}
-		</nav>
-		<span class="nav-btns">
-		{% if handler.user %}
-			<a href="{{handler.url('logout',True)}}">退出</a>
-		{% else %}
-			<a href="{{handler.url('login',True)}}">登录</a>
-			<a href="{{handler.url('register',True)}}">注册</a>
-		{% endif %}
-		</span>
-		<form class="search">
-			<input type="search" class="search" name="search">
-			<button class="btn-search"></button>
-		</form>
+		<div class="header-in">
+			<div class="logo"></div>
+			<nav>
+			{%- for item in handler.config.topnav %}
+				<a href="{{handler.action(item[1])}}"{%if item[1]==handler.route[-1]%} class="active"{%endif%}>{{item[0]}}</a>
+			{%- endfor %}
+			</nav>
+			<span class="nav-btns">
+			{% if handler.user %}
+				<a href="{{handler.url('logout',True)}}">退出</a>
+			{% else %}
+				<a href="{{handler.url('login',True)}}">登录</a>
+				<a href="{{handler.url('register',True)}}">注册</a>
+			{% endif %}
+			</span>
+			<form class="search">
+				<input type="search" class="search" name="search">
+				<button class="btn-search"></button>
+			</form>
+		</div>
 	</header>
 	{% block content %}{% endblock %}
 	<aside class="aside-right">
