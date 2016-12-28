@@ -47,7 +47,7 @@ class JsTag(CSS_JS_Tag):
 
 class CssJsTag(SimSingleTag):
 	__slots__ = ()
-	tags = set(['css_js'])
+	tags = set(['cjs'])
 	def run(self, *args):
 		return CssTag.run(CssTag, *args) + JsTag.run(JsTag, *args)
 

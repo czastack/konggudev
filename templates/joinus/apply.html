@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}空谷招新报名{% endblock %}
 {% block head %}
-	{% css_js 'apply', handler.appid %}
+	{% cjs 'apply', handler.appid %}
 {% endblock %}
-{% block main %}
+{% block wrap %}
 <div class="container">
 	<h1 class="page_title"><div>空谷校园网</div>招新报名表</h1>
 	<form id="applyform" action="" method="post" target="success">

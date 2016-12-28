@@ -1,12 +1,9 @@
 {% extends "blog/base.html" %}
-{% block title %}{{super()}}测试{% endblock %}
 {% block head %}
 	{{super()}}
 {% endblock %}
-{% block content -%}
-<div class="main">
+{% block main -%}
 	{% if handler.user %}
 		欢迎您 {{handler.user.username}}
 	{% endif %}
-</div>
 {%- endblock %}

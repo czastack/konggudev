@@ -1,7 +1,7 @@
 {% extends handler.url("@base.html") %}
 {% block head -%}
 	{{super()}}
-	{% css_js 'backend-apply-setting', handler.appid %}
+	{% cjs 'backend-apply-setting', handler.appid %}
 {%- endblock %}
 {% block content -%}
 	<ul class="departments">

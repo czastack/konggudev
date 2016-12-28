@@ -17,3 +17,17 @@ select(pw.SQL('*')
 
 n=10
 print('\n'.join((('*' + '**' * i).center(n*2) for i in tuple(range(n)) + (0,) * n)))
+
+form.py
+	def addClass(filed, classname):
+		if field.attrs.get('class', None):
+			field.attrs['class'] += ' ' + classname
+		else:
+			field.attrs['class'] = classname
+
+	if isinstance(common_class, dict):
+		for classname, condi in common_class.items():
+			if isinstance(condi, types.FunctionType):
+				condi = condi(filed)
+			if condi:
+				addClass(filed, classname)

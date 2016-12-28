@@ -32,7 +32,7 @@ class ApplyHandler(AssignableHander):
 			data = self.get_args(('predict', 'intro'))
 			models.Department.update(**data).filter(id=depart_id).execute()
 			models.Department.get_cache(delete=True)
-			return '', 204
+			return self.STAY
 
 	def info(self):
 		applyinfo = preference.load(self, 'applyinfo')
@@ -42,7 +42,7 @@ class ApplyHandler(AssignableHander):
 			form = forms.ApplyInfoForm(self.request.form)
 			applyinfo.update(form.data)
 			applyinfo.save()
-			return '', 204
+			return self.STAY
 
 	def list(self):
 		"""招新报名列表"""
@@ -60,7 +60,7 @@ class ApplyHandler(AssignableHander):
 		else:
 			action = self.request.form.get('action')
 			fn = getattr(self, action, None)
-			return fn() if fn else ('', 204)
+			return fn() if fn else self.STAY
 
 	def detail(self):
 		"""详细报名信息"""
@@ -83,7 +83,7 @@ class ApplyHandler(AssignableHander):
 			applicants  = applicants.where(models.Applicant.id << checked_id)
 			filename = None
 		if not applicants.count():
-			return '', 204
+			return self.STAY
 		# filename    = self.request.form.get('filename', None)
 
 		from io import BytesIO
@@ -127,8 +127,8 @@ class ApplyHandler(AssignableHander):
 		checked_id = self.request.form.getlist('checked')
 		if checked_id:
 			models.Applicant.delete().where(models.Applicant.id << checked_id).execute()
-			return self.refresh()
-		return '', 204
+			return self.REFRESH
+		return self.STAY
 
 	def apply_count(self, depart):
 		"""
@@ -155,4 +155,4 @@ def login_handle(handler):
 				handler.session['depart_id'] = depart.id
 				handler.session.pop('refer', None)
 				return redirect(refer)
-		return handler.refresh()
+		return handler.REFRESH

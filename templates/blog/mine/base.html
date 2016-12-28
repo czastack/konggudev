@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+{% block title %}{{super()}}个人中心{% endblock %}
+{% block head %}
+	{{super()}}
+	{% css 'mine', True%}
+{% endblock %}
+{% block main -%}
+	<div class="left">
+		<div class="head">
+			<img class="avatar" src="{{handler.img_url(base.avatar)}}" alt="{{base.nickname}}">
+			<div class="name">
+				<span class="nickname">{{base.nickname}}</span>
+				<span class="gender gender-{{base.gender}}"></span>
+			</div>
+			<div class="email">{{base.email}}</div>
+		</div>
+		<div class="anchors">
+			<a href="{{handler.action('article')}}"><span class="num">{{base.article_num}}</span>博客</a>
+			<a href="{{handler.action('attention')}}"><span class="num">{{base.attention_num}}</span>关注</a>
+			<a href="{{handler.action('fans')}}"><span class="num">{{base.fans_num}}</span>粉丝</a>
+		</div>
+		<ul class="menus">
+			{%- for key, title in handler.config.mineLeftMenu %}
+			<li class="{{key}}{%if key==handler.route[-1]%} active{%endif%}">
+				<a href="{{handler.action(key)}}">
+					<span class="icon"></span>
+					<span class="title">{{title}}</span>
+				</a>
+			</li>
+			{%- endfor %}
+		</ul>
+	</div>
+	<div class="right">
+		{% block content %}{%- endblock %}
+	</div>
+{%- endblock %}

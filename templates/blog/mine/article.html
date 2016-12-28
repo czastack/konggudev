@@ -1,0 +1,11 @@
+{% if not handler.is_ajax %}
+	{% extends "blog/mine/base.html" %}
+{% endif %}
+{% block head %}
+	{{super()}}
+	{% css 'mine-article', True%}
+{% endblock %}
+{% block content -%}
+	<h1>我的博客 <a class="add" href="{{handler.url('article/publish', True)}}">添加</a></h1>
+
+{%- endblock %}

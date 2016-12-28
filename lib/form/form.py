@@ -14,6 +14,9 @@ class FormMetaclass(type):
 					if parent is not Form and issubclass(parent, Form):
 						parentfields += parent.__fields__
 			getlabel = Dict.popif(attrs, '__label__')
+			common_class = Dict.popif(attrs, 'common_class')
+			common_attrs = Dict.popif(attrs, 'common_attrs')
+
 			for name, field in attrs.items():
 				if isinstance(field, Field):
 					# 根据name获取label
@@ -22,14 +25,12 @@ class FormMetaclass(type):
 					elif field.label is None and getlabel:
 						field.label = getlabel(name)					
 
-					common_class = attrs.get('common_class', None)
 					if common_class:
 						if field.attrs.get('class', None):
 							field.attrs['class'] += ' ' + common_class
 						else:
 							field.attrs['class'] = common_class
 
-					common_attrs = attrs.get('common_attrs', None)
 					if common_attrs:
 						for item in common_attrs.items():
 							field.attrs.setdefault(*item)

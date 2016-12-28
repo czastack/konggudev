@@ -1,0 +1,10 @@
+{% if not handler.is_ajax %}
+	{% extends "blog/mine/base.html" %}
+{% endif %}
+{% block content -%}
+	<h1>个人设置</h1>
+	<form id="applyform" method="post">
+		{% include 'form-fields.html' %}
+		<button class="submit">提交</button>
+	</form>
+{%- endblock %}

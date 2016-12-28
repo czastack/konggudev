@@ -4,8 +4,7 @@
     {{super()}}
     {% css 'login', True %}
 {% endblock %}
-{% block content %}
-<div class="content">
+{% block main %}
     <div class="content-box">
         <h1>登录</h1>
         <form id="login" method="post">
@@ -15,5 +14,4 @@
             <p class="help-text">{{err}}</p>
         </form>
     </div>
-</div>
 {% endblock %}

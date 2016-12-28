@@ -1,4 +1,4 @@
-from .front import DefaultHandler
+from .front import DefaultHandler, MineHandler
 
 def upload_handle(handler):
 	if handler.is_get:

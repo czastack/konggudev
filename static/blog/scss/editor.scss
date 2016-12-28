@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'toolbar';
+    src: url('../fonts/icon.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.layout {
+	padding-bottom: 10px;
+	overflow: hidden;
+
+	.btns {
+		padding: 5px;
+		button {
+			font-family: 'toolbar';
+		}	
+	}
+	.btns-right {
+		float: right;
+		padding: 5px;
+	}
+}
+
+.raw, #html {
+	float: left;
+	width: 50%;
+	height: 600px;
+	box-sizing: border-box;
+}
+
+.raw {
+	#inputer {
+		box-sizing: border-box;
+		height: 100%;
+		width: 100%;
+		vertical-align: top;
+		padding: 10px;
+		resize: none;
+		border: none;
+		background-color: #f5f5f5;
+		outline: none;
+		font-family: inherit;
+		font-size: 18px;
+		color: #616161;
+		box-shadow: 0 0 3px #aaa;
+		transition: all ease .3s;
+	}
+}
+
+#html {;
+	padding: 10px;
+	box-shadow: 0 0 3px #aaa;
+}

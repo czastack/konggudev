@@ -88,10 +88,17 @@ def direct_render(handler):
 	return handler.render()
 
 class BaseHandler:
+	"""
+	_template_dir: 见 template_name 的代码
+	"""
+
 	__slots__ = ('route', 'route_type')
 	from flask import request, session
 	json = staticmethod(jsonify)
 	redirect = staticmethod(redirect)
+
+	STAY = '', 204
+	REFRESH = '', 200, {"Refresh": "0"}
 
 	def __init__(self, route, route_type):
 		self.route = tuple(route)
@@ -124,7 +131,9 @@ class BaseHandler:
 		return render(tpl, handler=self, settings=settings, **data)
 
 	def template_name(self):
-		if self.route_type & ROUTE_MODULE:
+		if hasattr(self, '_template_dir'):
+			return self.template_on_dir(self._template_dir)
+		elif self.route_type & ROUTE_MODULE:
 			return self.route[1] + '/' + '-'.join(self.route[2:])
 		else:
 			return '-'.join(self.route[1:])
@@ -168,9 +177,6 @@ class BaseHandler:
 		if name:
 			url += settings.FILE_EXT
 		return url
-
-	def refresh(self):
-		return '', 200, {"Refresh": "0"}
 
 	def get_arg(self, key, default = ''):
 		"""获取参数，包括get和form"""

@@ -11,6 +11,9 @@ class User(BaseModel):
 	phone    = pw.FixedCharField(11, verbose_name="电话", null=True)
 	gender   = pw.FixedCharField(1, verbose_name="性别", null=True)
 
+	def getname(self):
+		return self.nickname or self.username
+
 class Article(BaseModel):
 	id          = pw.PrimaryKeyField()
 	author      = pw.ForeignKeyField(User, related_name='articles')
@@ -28,3 +31,8 @@ class ArticleTag(BaseModel):
 
 class Admin:
 	user_id = pw.ForeignKeyField(User, primary_key=True)
+
+
+class Attention:
+	fromid = pw.ForeignKeyField(User, primary_key=True)
+	toid   = pw.ForeignKeyField(User)

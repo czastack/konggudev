@@ -1,0 +1,32 @@
+{% extends "blog/base.html" %}
+{% block title %}{{super()}}编辑博客{% endblock %}
+{% block head %}
+    {{super()}}
+    {% css 'markdown', True %}
+    {%  js 'marked.min', True %}
+    {% cjs 'editor', True %}
+{% endblock %}
+{% block wrap %}
+    <div class="layout">
+        <div class="btns-right">
+            <button value="save">保存</button>
+            <button value="submit">提交</button>
+        </div>
+        <div class="btns">
+            <button key="bold">&#xf032;</button>
+            <button key="italic">&#xf033;</button>
+            <button key="anchor">&#xf0c1;</button>
+            <button key="line">&#xf10d;</button>
+            <button key="code">&#xf121;</button>
+            <button key="img">&#xf03e;</button>
+            <button key="li">&#xf0ca;</button>
+            <button key="title">&#xf1dc;</button>
+            <button key="hr">&#xf0cd;</button>
+            <button key="table">&#xf00a;</button>
+        </div>
+        <div class="raw">
+            <textarea name="" id="inputer" class="raw">{{content}}</textarea>
+        </div>
+        <div id="html"></div>
+    </div>
+{% endblock %}

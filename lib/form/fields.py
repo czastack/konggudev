@@ -60,6 +60,9 @@ class File(Input):
 class Date(Input):
 	input_type = 'date'
 
+class Email(Input):
+	input_type = 'email'
+
 class Phone(Input):
 	input_type = 'tel'
 	pattern    = '^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}'
@@ -147,7 +150,7 @@ class RadioList(ListField):
 			else:
 				value, text = item
 			attrs.value = value
-			if value is checked_value:
+			if value == checked_value:
 				attrs.checked = True
 			else:
 				attrs.popif('checked')

@@ -1,22 +1,23 @@
 {% extends "base.html" %}
-{% block title %}空谷技术博客 - {% endblock %}
+{% block title %}博客 - {{title}}{% endblock %}
 {% block head %}
-	{%- js settings.JQ + ', jquery-qrcode.min' %}
-	{% css_js 'blog', True -%}
+	{%- js settings.JQ + ',jquery-qrcode.min' %}
+	{% cjs 'blog', True%}
+	<link rel="shortcut icon" href="{{handler.img_url('favicon.ico')}}" />
 {% endblock %}
-{% block main %}
+{% block wrap %}
 	<header class="page-header">
 		<div class="header-in">
 			<div class="logo"></div>
 			<nav>
-			{%- for item in handler.config.topnav %}
-				<a href="{{handler.action(item[1])}}"{%if item[1]==handler.route[-1]%} class="active"{%endif%}>{{item[0]}}</a>
+			{%- for key, title in handler.config.topnav %}
+				<a href="{{handler.url(key, True)}}"{%if key==handler.route[1]%} class="active"{%endif%}>{{title}}</a>
 			{%- endfor %}
 			</nav>
 			<span class="nav-btns">
-			{% if handler.user %}
+			{%- if handler.user %}
 				<a href="{{handler.url('logout',True)}}">退出</a>
-			{% else %}
+			{%- else %}
 				<a href="{{handler.url('login',True)}}">登录</a>
 				<a href="{{handler.url('register',True)}}">注册</a>
 			{% endif %}
@@ -27,7 +28,7 @@
 			</form>
 		</div>
 	</header>
-	{% block content %}{% endblock %}
+	<div class="main">{% block main %}{% endblock %}</div>
 	<aside class="aside-right">
 		<div class="to_top">回到顶部</div>
 		<div class="qrcode-block">
