@@ -53,7 +53,7 @@ class ApplyHandler(AssignableHander):
 			# 	children = (depart.id for depart in models.Department.cache if depart.parent == 'wenyu')
 			# 	applicants = models.Applicant.query.filter(models.Applicant.first.in_(children))
 			departments = (depart for depart in models.Department.get_cache() if depart.id != 'wenyu')
-			applicants = models.Applicant.find().filter(first=depart_id)
+			applicants = models.Applicant.find_where(first=depart_id)
 			if search:
 				applicants = applicants.where(models.Applicant.name % '%' + search + '%')
 			return self.render(departments=departments, applicants=applicants, depart_id=depart_id)
@@ -135,7 +135,7 @@ class ApplyHandler(AssignableHander):
 		查询报名的人数
 		:param depart: 部门对象
 		"""
-		return models.Applicant.find().filter(first=depart.id).count()
+		return models.Applicant.find_where(first=depart.id).count()
 
 # 首页
 def index_handle(handler):

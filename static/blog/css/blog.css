@@ -1,5 +1,9 @@
-html, body, .wrap {
+@charset "UTF-8";
+html, body {
   height: 100%; }
+
+.wrap {
+  min-height: 100%; }
 
 .aside-right {
   position: fixed;
@@ -47,9 +51,9 @@ html, body, .wrap {
       .page-header form.search .search::selection {
         background-color: #aaa; }
     .page-header form.search .btn-search {
+      color: #fff;
       border-radius: 0 10px 10px 0;
-      background: #24bf73 url("../images/search.png") no-repeat center;
-      background-size: 20px;
+      background: #24bf73;
       display: inline-block;
       border: none;
       height: 29px;
@@ -66,6 +70,55 @@ html, body, .wrap {
 .main {
   width: 1200px;
   margin: 0 auto; }
+
+@font-face {
+  font-family: 'icon';
+  src: url("../fonts/icon.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal; }
+
+.icon {
+  font-family: 'icon';
+  display: inline-block;
+  font-style: normal;
+  width: 16px;
+  height: 16px; }
+
+.icon-search:before {
+  content: ""; }
+
+.icon-user:before {
+  content: ""; }
+
+.icon-setting:before {
+  content: ""; }
+
+.icon-star:before {
+  content: ""; }
+
+.icon-book:before {
+  content: ""; }
+
+.icon-comment:before {
+  content: ""; }
+
+.icon-comments:before {
+  content: ""; }
+
+.icon-tags:before {
+  content: ""; }
+
+.icon-edit:before {
+  content: ""; }
+
+.icon-time:before {
+  content: ""; }
+
+.icon-praise:before {
+  content: ""; }
+
+.icon-view:before {
+  content: ""; }
 
 .qrcode-wrapper {
   position: absolute;

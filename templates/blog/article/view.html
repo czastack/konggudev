@@ -1,0 +1,60 @@
+{% extends "blog/base.html" %}
+{% block title %}{{super()}}{{article.title}}{% endblock %}
+{% block head %}
+	{{super()}}
+	{% css 'markdown', True %}
+	{%  js 'marked.min', True %}
+	{% css 'article-view', True %}
+{% endblock %}
+{% block main %}
+	<div class="right">
+		<div class="authorbox block">
+			<div class="head">
+				<img class="avatar" src="{{handler.img_url('avatar-default.png')}}" alt="{{article.author.nickname}}"/>
+				<div class="name">
+					<span class="nickname">{{article.author.nickname}}</span>
+					<!-- <span class="gender">{{article.author.gender}}</span> -->
+				</div>
+			</div>
+			<div class="anchors">
+				<a href="{{handler.action('user/article')}}"><span class="num">{{article.author.article_count}}</span>博客</a>
+				<a href="{{handler.action('user/follow')}}"><span class="num">{{article.author.follow_count}}</span>关注</a>
+				<a href="{{handler.action('user/fans')}}"><span class="num">{{article.author.fans_count}}</span>粉丝</a>
+			</div>
+			<div class="follow">
+				关注
+			</div>
+		</div>
+
+		<div class="author-articles block">
+			<h3>作者的其他文章 <a href="" class="more">全部</a></h3>
+			<ul>
+				<li><a href="#">端午徒步武功山，看山看草看云海。</a></li>
+			</ul>
+		</div>
+
+		<div class="hot-articles block">
+			<h3>热门推荐 <a href="" class="more">全部</a></h3>
+		</div>
+	</div>
+
+	<div class="article block">
+		<h1 class="article-title">{{article.title}}</h1>
+		<div class="top">
+			<div class="nums">
+				<i class="icon icon-view"></i> 0
+				<i class="icon icon-comments"></i> 0
+				<i class="icon icon-time"></i> {{article.update_time}}
+			</div>
+			<div class="tags">
+				<i class="icon icon-tags"></i>
+				{%- for tag in article.tags.split(',') -%}
+					<span class="tag">{{tag}}</span>
+				{%- endfor -%}
+			</div>
+		</div>
+		<div class="content">
+			<script>document.write(marked("{{article.content}}"))</script>
+		</div>
+	</div>
+{% endblock %}

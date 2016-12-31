@@ -1,8 +1,8 @@
 {% if not handler.is_ajax %}
-	{% extends "blog/mine/base.html" %}
+	{%- extends "blog/mine/base.html" %}
 {% endif %}
 {% block content -%}
-	<h1>个人设置</h1>
+	<h1><span class="icon">&#xf013;</span> 个人设置</h1>
 	<form id="applyform" method="post">
 		{% include 'form-fields.html' %}
 		<button class="submit">提交</button>

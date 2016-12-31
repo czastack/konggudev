@@ -1,6 +1,6 @@
 from lib.handler import AssignableHander
 from lib import utils
-from . import models, forms
+from . import models
 import hashlib
 
 def require_login(func):
@@ -20,6 +20,11 @@ class BaseHandler(AssignableHander):
 	
 	from . import config
 
+	def oninit(self):
+		super().oninit()
+		if 'user' in self.session:
+			self.user = models.User(**self.session['user'])
+
 
 class DefaultHandler(BaseHandler):
 
@@ -27,8 +32,6 @@ class DefaultHandler(BaseHandler):
 
 	def oninit(self):
 		super().oninit()
-		if 'user' in self.session:
-			self.user = models.User(**self.session['user'])
 		title = utils.get_item(self.config.topnav, self.route[-1])
 		if title:
 			self.assign('title', title)
@@ -48,7 +51,7 @@ class DefaultHandler(BaseHandler):
 		else:
 			data = self.get_args(('username', 'password'))
 			self.sha1_pwd(data)
-			user = models.User.find().filter(**data).first()
+			user = models.User.find_where(**data).first()
 			if user:
 				self.session['user'] = user._data
 				return self.redirect(self.session.pop('refer', self.action('index')))
@@ -64,9 +67,9 @@ class DefaultHandler(BaseHandler):
 			return self.render()
 		else:
 			data = self.get_args(('username', 'password', 'email'))
-			if models.User.find().filter(username=data.username).count():
+			if models.User.find_where(username=data.username).count():
 				return self.render(err='用户名已被注册')
-			if models.User.find().filter(email=data.email).count():
+			if models.User.find_where(email=data.email).count():
 				return self.render(err='邮箱已被注册')
 			
 			self.sha1_pwd(data)
@@ -79,52 +82,3 @@ class DefaultHandler(BaseHandler):
 
 	def test(self):
 		return self.get_args_adv(('username', 'password', ('age', int, 0)))
-
-
-class MineHandler(BaseHandler):
-
-	_template_dir = 'mine'
-
-	@require_login
-	def oninit(self):
-		super().oninit()
-		self.user = models.User(**self.session['user'])
-		self.assign('base', {
-			"nickname": self.user.getname(),
-			"avatar": self.config.DEFAULT_AVATAR,
-			"gender": 1,
-			"email": self.user.email,
-			"article_num": 22,
-			"attention_num": 22,
-			"fans_num": 22,
-		})
-
-	def index(self):
-		return self.render()
-
-	def edit(self):
-		if self.is_get:
-			form = forms.PersonInfoForm(self.user._data)
-			return self.render(form=form)
-		else:
-			form = forms.PersonInfoForm(self.request.form)
-			form.data.popif('username')
-			self.user.setdata(form.data)
-			self.user.save()
-			self.session['user'] = self.user._data
-			return self.STAY
-
-	def collection(self):
-		return self.render()
-
-	def comments(self):
-		return self.render()
-
-	def article(self):
-		return self.render()
-
-	def attention(self):
-		return self.render()
-
-	def fans(self):
-		return self.render()

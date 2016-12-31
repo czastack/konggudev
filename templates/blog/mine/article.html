@@ -6,6 +6,32 @@
 	{% css 'mine-article', True%}
 {% endblock %}
 {% block content -%}
-	<h1>我的博客 <a class="add" href="{{handler.url('article/publish', True)}}">添加</a></h1>
-
+	<h1>
+		<i class="icon icon-book"></i> 我的博客
+		<a class="add" href="{{handler.action('publish')}}"><i class="icon icon-edit"></i> 添加</a>
+	</h1>
+	<ul class="article-list">
+		{% for item in articles %}
+			<li>
+				<span class="status">{{handler.config.article_status[item.status]}}</span>
+				<a href="{{handler.url('article/view?id=%d' % item.id, True)}}">{{item.title}}</a>
+				<div class="time">
+					<i class="icon icon-time"></i>
+					{{item.create_time}}
+				</div>
+				<p class="desc">{{item.content[:60]}}</p>
+				<div class="tags">
+					<i class="icon icon-tags"></i>
+					{%- for tag in item.tags.split(',') -%}
+						<span class="tag">{{tag}}</span>
+					{%- endfor -%}
+				</div>
+				<div class="bottom">
+					<i class="icon icon-praise"></i> 0
+					<i class="icon icon-comments"></i> 0
+					<a class="edit" href="{{handler.action('article_edit') + '?id=%d' % item.id}}"><i class="icon icon-edit"></i> 编辑</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
 {%- endblock %}

@@ -37,9 +37,11 @@ window.onload = function(){
         if (sText) {
             inputer.setSelectionRange(start + offset, start + offset + sText.length);
         }
+        return false;
     }
     document.querySelectorAll('.btns button').forEach(function(e){
         e.key = e.getAttribute('key');
+        e.tabIndex = -1;
         e.onclick = insertSnippet;
     });
 };

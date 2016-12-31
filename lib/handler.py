@@ -152,16 +152,18 @@ class BaseHandler:
 		route = self.url(route, True) + settings.FILE_EXT
 		return route
 
-	def static_url(self, filename, parent = ''):
+	def static_url(self, filename, parent=''):
 		"""生成静态资源url"""
 		if parent and not parent.endswith('/'):
 			parent += '/'
 		path = app.static_url_path + '/'
 		return path + parent + filename
 
-	def img_url(self, filename, at_root = False):
+	def img_url(self, filename, parent=True):
 		imgdir = 'images'
-		parent = imgdir if at_root else (self.appid + '/' + imgdir)
+		if parent is True:
+			parent = self.appid
+		parent = (parent + '/' + imgdir) if parent else imgdir
 		return self.static_url(filename, parent)
 
 	def action(self, name = '', level = 0):
@@ -205,10 +207,6 @@ class BaseHandler:
 		return self.route[0]
 
 	@property
-	def home_url(self):
-		return self.page_url('index')
-
-	@property
 	def is_get(self):
 		return self.request.method == 'GET'
 
@@ -220,6 +218,11 @@ class BaseHandler:
 	def is_ajax(self):
 		# return self.request.headers.get('X-Requested-With', '') == 'XMLHttpRequest'
 		return self.request.is_xhr
+
+	@property
+	def tpl_dir(self):
+		"""当前类渲染模板的路径，便于include"""
+		return
 
 class AssignableHander(BaseHandler):
 	__slots__ = ('variable',)

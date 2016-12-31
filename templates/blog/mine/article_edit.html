@@ -1,0 +1,5 @@
+{% extends self.brother('publish') %}
+{% block page_title %}编辑文章{% endblock %}
+{% block extform -%}
+	<input type="hidden" name="id" value="{{id}}">
+{%- endblock %}

@@ -22,6 +22,9 @@ for fn in FILTERS:
 	app.add_template_filter(fn)
 del FILTERS
 
+# 加载自定义类拓展
+import lib.extends
+
 from lib import handler
 
 @app.route('/<path:url>', methods=['GET', 'POST'])

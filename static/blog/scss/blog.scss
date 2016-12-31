@@ -1,10 +1,10 @@
 $border_color: #ccd;
 
-html, body, .wrap {
+html, body {
 	height: 100%;
 }
-body {
-	
+.wrap {
+	min-height: 100%;
 }
 .aside-right {
 	position: fixed;
@@ -61,9 +61,9 @@ body {
 			}
 		}
 		.btn-search {
+			color: #fff;
 			border-radius: 0 10px 10px 0;
-			background: #24bf73 url('../images/search.png') no-repeat center;
-			background-size: 20px;
+			background: #24bf73;
 			display: inline-block;
 			border: none;
 			height: 29px;
@@ -86,6 +86,8 @@ body {
 	width: $lg;
 	margin: 0 auto;
 }
+
+@import "icon.scss";
 
 .qrcode-wrapper {
 	position: absolute;

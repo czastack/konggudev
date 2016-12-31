@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}博客 - {{title}}{% endblock %}
 {% block head %}
-	{%- js settings.JQ + ',jquery-qrcode.min' %}
-	{% cjs 'blog', True%}
+	{#%- js settings.JQ + ',jquery-qrcode.min' %#}
+	{%- css 'blog', True%}
 	<link rel="shortcut icon" href="{{handler.img_url('favicon.ico')}}" />
 {% endblock %}
 {% block wrap %}
@@ -24,12 +24,12 @@
 			</span>
 			<form class="search">
 				<input type="search" class="search" name="search">
-				<button class="btn-search"></button>
+				<button class="btn-search"><i class="icon icon-search"></i></button>
 			</form>
 		</div>
 	</header>
 	<div class="main">{% block main %}{% endblock %}</div>
-	<aside class="aside-right">
+	{#<aside class="aside-right">
 		<div class="to_top">回到顶部</div>
 		<div class="qrcode-block">
 			<span>扫码访问</span>
@@ -38,5 +38,5 @@
 				<em>用手机扫码访问本页</em>
 			</div>
 		</div>
-	</aside>
-{% endblock %}
+	</aside>#}
+{%- endblock %}

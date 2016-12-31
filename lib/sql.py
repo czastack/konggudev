@@ -14,14 +14,6 @@ def base_model(dbname=''):
 	return BaseModel
 
 
-def _extend_peewee():
-	def create_database(self, dbname):
-		self.execute_sql("CREATE DATABASE %s CHARACTER SET utf8 COLLATE utf8_general_ci;" % dbname)
-	pw.MySQLDatabase.create_database = create_database
-
-_extend_peewee()
-del _extend_peewee
-
 def cache(cache_time):
 	"""
 	缓存查询结果装饰器
@@ -45,7 +37,10 @@ def cache(cache_time):
 		return __deco
 	return _deco
 
+
 class MyBaseModel(pw.Model):
+
+	NOW = pw.SQL('now()')
 
 	@classmethod
 	def db(cls):
@@ -54,6 +49,11 @@ class MyBaseModel(pw.Model):
 	@classmethod
 	def find(cls):
 		return cls.select(pw.SQL('*'))
+
+	@classmethod
+	def find_where(cls, **kwargs):
+		query = [cls._meta.fields[key] == val for key, val in kwargs.items()]
+		return cls.find().where(*query)
 
 	@classmethod
 	def get_label(cls, key):

@@ -1,19 +1,10 @@
-@font-face {
-  font-family: 'toolbar';
-  src: url("../fonts/icon.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal; }
-
 .layout {
-  padding-bottom: 10px;
+  padding: 5px;
   overflow: hidden; }
   .layout .btns {
-    padding: 5px; }
+    padding: 10px 0; }
     .layout .btns button {
-      font-family: 'toolbar'; }
-  .layout .btns-right {
-    float: right;
-    padding: 5px; }
+      font-family: 'icon'; }
 
 .raw, #html {
   float: left;

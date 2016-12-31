@@ -1,0 +1,47 @@
+.main {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #eee;
+  padding: 30px;
+  box-sizing: border-box;
+  margin-top: 20px; }
+  .main .page_title {
+    color: #4eb17d;
+    font-size: 24px;
+    text-align: center;
+    margin: 0; }
+  .main .blog_title, .main .blog_tags {
+    margin: 5px; }
+    .main .blog_title input, .main .blog_tags input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #e6e6e6;
+      background: #f8f8f8;
+      text-indent: 1.5em;
+      font-size: 14px; }
+  .main .blog_tags {
+    margin-top: 10px; }
+    .main .blog_tags input {
+      height: 30px; }
+  .main .submitBtn {
+    width: 350px;
+    margin: 30px auto 0 auto; }
+    .main .submitBtn button {
+      border-radius: 30px;
+      height: 50px;
+      line-height: 50px;
+      width: 160px;
+      border: none;
+      text-align: center;
+      transition: background 0.4s;
+      cursor: pointer; }
+    .main .submitBtn .publish {
+      background: #f68344;
+      color: #fff; }
+      .main .submitBtn .publish:hover {
+        background: #e3753f; }
+    .main .submitBtn .save {
+      background: #e6e6e6;
+      color: #808080; }
+      .main .submitBtn .save:hover {
+        background: #d4d4d4; }

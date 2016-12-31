@@ -1,5 +1,6 @@
-import re
 from jinja2.utils import Markup
+from . import utils
+import re
 
 def br(text):
 	return Markup(re.sub('\n', '<br>', text))
@@ -12,4 +13,4 @@ def strcut(text, length, end = '...'):
 		return text
 	return text[:length] + end
 
-FILTERS = (br, spacebr, strcut)
+FILTERS = (br, spacebr, strcut, utils.timestr)

@@ -1,0 +1,21 @@
+{% css 'markdown', True %}
+{%  js 'marked.min', True %}
+{% cjs 'editor', True %}
+<div class="layout">
+    <div class="btns">
+        <button key="bold">&#xf032;</button>
+        <button key="italic">&#xf033;</button>
+        <button key="anchor">&#xf0c1;</button>
+        <button key="line">&#xf10d;</button>
+        <button key="code">&#xf121;</button>
+        <button key="img">&#xf03e;</button>
+        <button key="li">&#xf0ca;</button>
+        <button key="title">&#xf1dc;</button>
+        <button key="hr">&#xf0cd;</button>
+        <button key="table">&#xf00a;</button>
+    </div>
+    <div class="raw">
+        <textarea name="content" id="inputer" class="raw" required>{{content}}</textarea>
+    </div>
+    <div id="html"></div>
+</div>

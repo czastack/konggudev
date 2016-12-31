@@ -14,7 +14,7 @@ def apply_handle(handler):
 	else:
 		err = None
 		form = forms.ApplyForm(handler.request.form)
-		if models.Applicant.find().where(name=form.data.name, phone=form.data.phone).count():
+		if models.Applicant.find_where(name=form.data.name, phone=form.data.phone).count():
 			err = '报名信息已存在'
 		else:
 			applicant = models.Applicant.create(**form.data)

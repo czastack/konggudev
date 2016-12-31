@@ -16,14 +16,14 @@
 		</div>
 		<div class="anchors">
 			<a href="{{handler.action('article')}}"><span class="num">{{base.article_num}}</span>博客</a>
-			<a href="{{handler.action('attention')}}"><span class="num">{{base.attention_num}}</span>关注</a>
+			<a href="{{handler.action('follow')}}"><span class="num">{{base.follow_num}}</span>关注</a>
 			<a href="{{handler.action('fans')}}"><span class="num">{{base.fans_num}}</span>粉丝</a>
 		</div>
 		<ul class="menus">
-			{%- for key, title in handler.config.mineLeftMenu %}
+			{%- for key, title, icon in handler.config.mineLeftMenu %}
 			<li class="{{key}}{%if key==handler.route[-1]%} active{%endif%}">
 				<a href="{{handler.action(key)}}">
-					<span class="icon"></span>
+					<i class="icon icon-{{icon}}"></i>
 					<span class="title">{{title}}</span>
 				</a>
 			</li>
