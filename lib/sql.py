@@ -52,8 +52,26 @@ class MyBaseModel(pw.Model):
 
 	@classmethod
 	def find_where(cls, **kwargs):
-		query = [cls._meta.fields[key] == val for key, val in kwargs.items()]
+		query = (cls._meta.fields[key] == val for key, val in kwargs.items())
 		return cls.find().where(*query)
+
+	@classmethod
+	def select_where(cls, *select, **where):
+		select = (cls._meta.fields[key] for key in select)
+		result = cls.select(*select)
+		if where:
+			where = (cls._meta.fields[key] == val for key, val in where.items())
+			result = result.where(*where)
+		return result
+
+	@classmethod
+	def select_one(cls, *select, **where):
+		return cls.select_where(*select, **where).first()._data
+
+	@classmethod
+	def select_all(cls, *select, **where):
+		for item in cls.select_where(*select, **where):
+			yield item._data
 
 	@classmethod
 	def get_label(cls, key):

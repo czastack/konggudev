@@ -1,0 +1,49 @@
+# 触发器
+
+## 文章数量触发器
+DELIMITER $
+CREATE TRIGGER t_article_count_insert AFTER INSERT ON article
+FOR EACH ROW
+BEGIN
+    UPDATE user set article_count=article_count+1 where id=new.author_id;
+END$
+
+CREATE TRIGGER t_article_count_delete AFTER DELETE ON article
+FOR EACH ROW
+BEGIN
+    UPDATE user set article_count=article_count-1 where id=old.author_id;
+END$
+DELIMITER ;
+
+## 文章评论数量触发器
+DELIMITER $
+CREATE TRIGGER t_comment_count_insert AFTER INSERT ON articlecomment
+FOR EACH ROW
+BEGIN
+    UPDATE article set comment_count=comment_count+1 where id=new.article_id;
+END$
+
+CREATE TRIGGER t_comment_count_delete AFTER DELETE ON articlecomment
+FOR EACH ROW
+BEGIN
+    UPDATE article set comment_count=comment_count-1 where id=old.article_id;
+END$
+DELIMITER ;
+
+
+## 关注触发器
+DELIMITER $
+CREATE TRIGGER t_follow_insert AFTER INSERT ON follow
+FOR EACH ROW
+BEGIN
+    UPDATE user set follow_count=follow_count+1 where id=new.follower_id;
+    UPDATE user set fans_count=fans_count+1 where id=new.target_id;
+END$
+
+CREATE TRIGGER t_follow_delete AFTER DELETE ON follow
+FOR EACH ROW
+BEGIN
+    UPDATE user set follow_count=follow_count-1 where id=old.follower_id;
+    UPDATE user set fans_count=fans_count-1 where id=old.target_id;
+END$
+DELIMITER ;

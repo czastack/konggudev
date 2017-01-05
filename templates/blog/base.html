@@ -16,6 +16,7 @@
 			</nav>
 			<span class="nav-btns">
 			{%- if handler.user %}
+				<a href="{{handler.url('mine/setting',True)}}">{{handler.user.getname()}}</a>
 				<a href="{{handler.url('logout',True)}}">退出</a>
 			{%- else %}
 				<a href="{{handler.url('login',True)}}">登录</a>

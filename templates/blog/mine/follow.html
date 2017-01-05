@@ -1,6 +1,22 @@
 {% if not handler.is_ajax %}
-	{% extends "blog/mine/base.html" %}
+	{% extends self.brother('base') %}
 {% endif %}
+{% block head %}
+	{{super()}}
+	{% css 'user-list', True%}
+{% endblock %}
 {% block content -%}
-	我的关注
+	<h1>{% block page_title %}我的关注{% endblock %}</h1>
+	<ul>
+	{% for item in users %}
+		<li class="user">
+			<a href="{{handler.user_url(item)}}">
+				<img class="avatar" src="{{handler.img_url('avatar-default.png')}}" alt="{{item.getname()}}">
+				<div class="name">
+					<span class="nickname">{{item.getname()}}</span>
+				</div>
+			</a>
+		</li>
+	{% endfor %}
+	</ul>
 {%- endblock %}

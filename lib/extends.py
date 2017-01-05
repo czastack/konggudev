@@ -4,7 +4,12 @@ import os
 import peewee as pw
 
 def create_database(self, dbname):
+	if self.database == dbname:
+		self.database = ''
 	self.execute_sql("CREATE DATABASE %s CHARACTER SET utf8 COLLATE utf8_general_ci;" % dbname)
+	if self.database == '':
+		self.database = dbname
+		self.execute_sql('use ' + dbname)
 
 pw.MySQLDatabase.create_database = create_database
 

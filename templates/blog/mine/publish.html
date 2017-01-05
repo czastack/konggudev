@@ -7,11 +7,14 @@
 {% block main %}
 	<h1 class="page_title">{{self.page_title()}}</h1>
 	<form method="post">
-		<div class="blog_title">
+		<div class="blog-control">
 			<input type="text" name="title" placeholder="请输入标题（必填）" value="{{title}}" required>
 		</div>
-		<div class="blog_tags">
-			<input type="text" name="tags" placeholder="请输入标签（,分隔）" value="{{tags}}">
+		<div class="blog-control blog-tags">
+			<input type="text" name="tags" placeholder="请输入标签（,分隔）" value="{{tags}}" required>
+		</div>
+		<div class="blog-control blog-desc">
+			<input type="text" name="description" placeholder="请输入摘要" value="{{description}}" required>
 		</div>
 		{% include self.brother('editor') %}
 		{% block extform %}{% endblock %}

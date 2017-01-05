@@ -10,19 +10,17 @@
     font-size: 24px;
     text-align: center;
     margin: 0; }
-  .main .blog_title, .main .blog_tags {
-    margin: 5px; }
-    .main .blog_title input, .main .blog_tags input {
+  .main .blog-control {
+    margin: 10px; }
+    .main .blog-control input {
       width: 100%;
       height: 40px;
       border: 1px solid #e6e6e6;
       background: #f8f8f8;
       text-indent: 1.5em;
       font-size: 14px; }
-  .main .blog_tags {
-    margin-top: 10px; }
-    .main .blog_tags input {
-      height: 30px; }
+  .main .blog-tags input {
+    height: 30px; }
   .main .submitBtn {
     width: 350px;
     margin: 30px auto 0 auto; }

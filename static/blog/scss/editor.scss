@@ -29,14 +29,15 @@
 		background-color: #f5f5f5;
 		outline: none;
 		font-family: inherit;
-		font-size: 18px;
 		color: #616161;
 		box-shadow: 0 0 3px #aaa;
 		transition: all ease .3s;
 	}
 }
 
-#html {;
+#html {
 	padding: 10px;
 	box-shadow: 0 0 3px #aaa;
+	overflow: auto;
+	line-height: 1.3;
 }

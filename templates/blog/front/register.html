@@ -8,10 +8,10 @@
 <div class="content-box">
     <h1>注册</h1>
     <form id="rigister" method="post">
-        <input class="text" type="text" name="username" placeholder="取个名字吧" required>
+        <input class="text" type="text" name="username" placeholder="取个名字吧" value="{{username}}" required>
         <input class="text" type="password" name="password" placeholder="设一个密码吧" required>
         <input class="text" type="password" id="pwd_confirm" placeholder="再输一遍密码吧" required>
-        <input class="text" type="email" name="email" placeholder="邮箱" required="">
+        <input class="text" type="email" name="email" placeholder="邮箱" value="{{email}}" required>
         <button type="submit" class="submit">注册</button>
         <p class="help-text">{{err}}</p>
     </form>

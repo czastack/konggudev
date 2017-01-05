@@ -1,9 +1,11 @@
-FILE_EXT = '.html'
-
 handle_fn_suffix = '_handle'
 handle_class_suffix = 'Handler'
 handle_fn_default = 'default' + handle_fn_suffix
 handle_class_default = 'Default' + handle_class_suffix
+
+FILE_EXT = '.html'
+FAKE_STATIC = False # 伪静态
+FAKE_STATIC_EXT = FILE_EXT
 
 JQ = 'jquery-3.1.0.min'
 

@@ -1,15 +1,13 @@
-.wrap {
-  background-color: #f5f5f5; }
-
 .main {
-  padding-top: 70px;
+  padding: 70px 5px 5px 5px;
   overflow: hidden; }
 
 .block {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   background: #fff;
-  border-radius: 5px; }
+  border-radius: 5px;
+  overflow: hidden; }
 
 .article {
   width: 870px;
@@ -28,60 +26,15 @@
         margin-left: 5px; }
     .article .top .tags {
       margin-top: 20px; }
-      .article .top .tags .icon {
-        color: #989898; }
-      .article .top .tags .tag {
-        color: #fff;
-        background: #999;
-        font-size: 12px;
-        padding: 2px 10px;
-        border-radius: 20px;
-        margin-left: 10px; }
-  .article .content h1, .article .content h2, .article .content h3, .article .content h4, .article .content h5, .article .content h6 {
-    margin: 10px 0; }
+  .article #content {
+    line-height: 1.5; }
+    .article #content h1, .article #content h2, .article #content h3, .article #content h4, .article #content h5, .article #content h6 {
+      margin: 10px 0; }
 
 .right {
   float: right;
   width: 300px;
   box-sizing: border-box; }
-  .right .authorbox.block {
-    padding: 0; }
-    .right .authorbox.block .head {
-      padding: 20px;
-      overflow: hidden; }
-      .right .authorbox.block .head .avatar {
-        width: 64px;
-        height: 64px;
-        float: left; }
-      .right .authorbox.block .head .name {
-        float: left;
-        width: 170px;
-        margin-left: 20px;
-        margin-top: 10px; }
-      .right .authorbox.block .head .email {
-        float: left;
-        margin-left: 20px;
-        margin-top: 5px; }
-    .right .authorbox.block .anchors {
-      padding: 15px;
-      overflow: hidden; }
-      .right .authorbox.block .anchors a {
-        float: left;
-        color: #333;
-        width: 40px;
-        margin: 5px;
-        padding: 20px;
-        background-color: #f7f7f7;
-        text-align: center; }
-        .right .authorbox.block .anchors a:hover {
-          background: #eee; }
-      .right .authorbox.block .anchors .num {
-        display: block; }
-    .right .authorbox.block .follow {
-      text-align: center;
-      width: 200px;
-      margin: 0 auto;
-      padding: 15px; }
   .right .block {
     padding: 20px; }
     .right .block h3 {
@@ -119,3 +72,72 @@
         top: 16px;
         left: 3px;
         background: #109d59; }
+  .right .user-box.block {
+    padding: 0; }
+
+.comments {
+  width: 870px;
+  padding: 15px;
+  box-sizing: border-box; }
+  .comments .comment-box textarea {
+    height: 100px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    padding: 10px 15px;
+    resize: none;
+    outline: none;
+    border: solid 1px #f0eff0;
+    width: 100%;
+    box-sizing: border-box; }
+  .comments .comment-box .comment-btn {
+    margin-top: 10px;
+    text-align: right; }
+    .comments .comment-box .comment-btn button {
+      width: 80px;
+      height: 36px;
+      border-radius: 5px;
+      color: #fff;
+      vertical-align: middle;
+      line-height: 36px;
+      text-align: center;
+      background: #f68344;
+      font-size: 16px;
+      border: none;
+      outline: none;
+      cursor: pointer; }
+      .comments .comment-box .comment-btn button:hover {
+        background-color: #e67233; }
+  .comments h2 {
+    font-size: 18px;
+    text-indent: 5px;
+    margin-bottom: 10px;
+    line-height: 30px;
+    position: relative; }
+    .comments h2:before {
+      content: "";
+      width: 4px;
+      height: 20px;
+      background: #f68344;
+      margin-top: 5px;
+      float: left; }
+  .comments .comment {
+    padding: 15px 20px;
+    border-top: solid 1px #e5e5e5; }
+    .comments .comment .avatar {
+      width: 60px;
+      border-radius: 50%;
+      vertical-align: top; }
+    .comments .comment .top-right {
+      display: inline-block;
+      margin-left: 10px;
+      margin-top: 10px;
+      line-height: 1.5; }
+      .comments .comment .top-right .nickname {
+        color: #333; }
+      .comments .comment .top-right .time {
+        font-size: 14px;
+        color: #888;
+        margin-left: 10px; }
+    .comments .comment .body {
+      font-size: 14px;
+      margin: 8px; }

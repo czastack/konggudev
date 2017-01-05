@@ -1,0 +1,86 @@
+.user-box {
+    padding: 0;
+    .head {
+        padding: 20px;
+        overflow: hidden;
+        a {
+            color: inherit;
+        }
+        .avatar {
+            width: 64px;
+            height: 64px;
+            float: left;
+        }
+        .name {
+            float: left;
+            width: 170px;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .email {
+            float: left;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+    }
+    .anchors {
+        padding: 15px;
+        overflow: hidden;
+        a {
+            float: left;
+            color: #333;
+            width: 40px;
+            margin: 5px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            text-align: center;
+            &:hover {
+                background: #eee;
+            }
+        }
+        .num {
+            display: block;
+        }
+    }
+}
+
+.follow {
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+
+    .btn-follow, .btn-unfollow {
+        display: block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        line-height: 50px;
+        text-align: center;
+        font-size: 50px;
+        font-weight: bold;
+        color: #fff;
+        margin: 5px auto;
+    }
+
+    .btn-follow {
+        background-color: #4fc3f3;
+        &:before {
+            content: '+';
+        }
+    }
+    .btn-unfollow {
+        background-color: #f38c4f;
+        &:before {
+            content: '-';
+        }
+    }
+
+    &:hover {
+        .btn-follow {
+            background-color: #27a2d5;
+        }
+        .btn-unfollow {
+            background-color: #e6712c;
+        }
+    }
+}

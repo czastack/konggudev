@@ -1,7 +1,9 @@
-{% extends "blog/base.html" %}
-{% block head %}
-	{{super()}}
-{% endblock %}
-{% block main %}
-	123
+{% extends self.brother('index') %}
+{% block page_title -%}
+	<form class="tags">
+		<i class="icon icon-tags"></i>
+		{%- for tag in tags -%}
+			<input type="submit" class="tag" name="tag" value="{{tag}}">
+		{%- endfor -%}
+	</form>
 {% endblock %}

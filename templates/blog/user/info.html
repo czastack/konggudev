@@ -1,0 +1,13 @@
+{% extends self.brother("base") %}
+{% block head %}
+	{{super()}}
+	{% css 'info', True %}
+{% endblock %}
+{% block content -%}
+	<h1><i class="icon icon-user"></i> TA的信息</h1>
+	<ul class="info">
+	{% for name, item in form.iterfields() %}	
+		<li><span class="label">{{item.label}}</span>{{form.data[name]}}</li>
+	{% endfor %}
+	</ul>
+{%- endblock %}

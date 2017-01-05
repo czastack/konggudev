@@ -1,0 +1,13 @@
+{% extends "blog/base-user-home.html" %}
+{% block title %}{{super()}}个人主页{% endblock %}
+{% block extbtns %}
+	<div class="follow">
+		{% if handler.user %}
+			{%- if handler.followed() %}
+				<a href="{{handler.action('unfollow')}}"><span class="btn-unfollow"></span>取消关注</a>
+			{% else %}
+				<a href="{{handler.action('dofollow')}}"><span class="btn-follow"></span>关注</a>
+			{%- endif %}
+		{% endif %}
+	</div>
+{% endblock %}

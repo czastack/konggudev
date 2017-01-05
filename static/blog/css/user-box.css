@@ -1,0 +1,63 @@
+.user-box {
+  padding: 0; }
+  .user-box .head {
+    padding: 20px;
+    overflow: hidden; }
+    .user-box .head a {
+      color: inherit; }
+    .user-box .head .avatar {
+      width: 64px;
+      height: 64px;
+      float: left; }
+    .user-box .head .name {
+      float: left;
+      width: 170px;
+      margin-left: 20px;
+      margin-top: 10px; }
+    .user-box .head .email {
+      float: left;
+      margin-left: 20px;
+      margin-top: 5px; }
+  .user-box .anchors {
+    padding: 15px;
+    overflow: hidden; }
+    .user-box .anchors a {
+      float: left;
+      color: #333;
+      width: 40px;
+      margin: 5px;
+      padding: 20px;
+      background-color: #f7f7f7;
+      text-align: center; }
+      .user-box .anchors a:hover {
+        background: #eee; }
+    .user-box .anchors .num {
+      display: block; }
+
+.follow {
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer; }
+  .follow .btn-follow, .follow .btn-unfollow {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: #fff;
+    margin: 5px auto; }
+  .follow .btn-follow {
+    background-color: #4fc3f3; }
+    .follow .btn-follow:before {
+      content: '+'; }
+  .follow .btn-unfollow {
+    background-color: #f38c4f; }
+    .follow .btn-unfollow:before {
+      content: '-'; }
+  .follow:hover .btn-follow {
+    background-color: #27a2d5; }
+  .follow:hover .btn-unfollow {
+    background-color: #e6712c; }

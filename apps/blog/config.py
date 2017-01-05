@@ -7,8 +7,14 @@ topnav = (
 
 mineLeftMenu = (
 	("setting",   "编辑个人资料", "user"),
-	("collection", "我的收藏",    "star"),
-	("comments",   "我的评论",    "comment"),
+	# ("collection", "我的收藏",    "star"),
+	# ("comments",   "我的评论",    "comment"),
+)
+
+userLeftMenu = (
+	("info",   "TA的个人资料", "user"),
+	# ("collection", "TA的收藏",    "star"),
+	# ("comments",   "TA的评论",    "comment"),
 )
 
 article_status = ("自己可见", "已发布")

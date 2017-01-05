@@ -1,19 +1,15 @@
-{% if not handler.is_ajax %}
-	{% extends "blog/mine/base.html" %}
+{%- if not handler.is_ajax %}
+	{% extends "blog/user/base.html" %}
 {% endif %}
 {% block head %}
 	{{super()}}
 	{% cjs 'mine-article', True%}
 {% endblock %}
 {% block content -%}
-	<h1>
-		<i class="icon icon-book"></i> 我的博客
-		<a class="add" href="{{handler.action('publish')}}"><i class="icon icon-edit"></i>添加</a>
-	</h1>
+	<h1> <i class="icon icon-book"></i> TA的博客 </h1>
 	<ul class="article-list">
 		{% for item in articles -%}
 			<li>
-				<span class="status">{{handler.config.article_status[item.status]}}</span>
 				<a href="{{handler.article_url(item)}}">{{item.title}}</a>
 				<div class="time">
 					<i class="icon icon-time"></i>
@@ -29,12 +25,6 @@
 				<div class="bottom">
 					<i class="icon icon-view"></i> <span>{{item.view_count}}</span>
 					<i class="icon icon-comments"></i> <span>{{item.comment_count}}</span>
-					<a class="btn" href="{{handler.action('article_edit') + '?id=%d' % item.id}}">
-						<i class="icon icon-edit"></i>编辑
-					</a>
-					<a class="delete" href="{{handler.action('article_del') + '?id=%d' % item.id}}">
-						<i class="icon icon-delete"></i>删除
-					</a>
 				</div>
 			</li>
 		{%- endfor %}

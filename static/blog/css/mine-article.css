@@ -11,7 +11,8 @@
 
 .article-list li {
   border-bottom: solid #e5e5e5 2px;
-  padding-bottom: 15px; }
+  padding-bottom: 15px;
+  margin-top: 15px; }
   .article-list li:last-child {
     border-bottom: none; }
 
@@ -38,15 +39,6 @@
 
 .article-list .tags {
   float: left; }
-  .article-list .tags .icon {
-    color: #989898; }
-  .article-list .tags .tag {
-    color: #fff;
-    background: #999;
-    font-size: 12px;
-    padding: 2px 10px;
-    border-radius: 20px;
-    margin-left: 10px; }
 
 .article-list .bottom {
   text-align: right; }

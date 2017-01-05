@@ -1,9 +1,35 @@
 {% extends "blog/base.html" %}
 {% block head %}
 	{{super()}}
+	{% css 'index', True %}
 {% endblock %}
 {% block main -%}
-	{% if handler.user %}
-		欢迎您 {{handler.user.username}}
-	{% endif %}
+	<h1>{% block page_title %}最新动态{% endblock %}</h1>
+	<ul>
+	{%- for item in articles %}
+		<li class="article">
+			<div class="top">
+				<img src="{{handler.img_url('avatar-default.png')}}" alt="" class="avatar">
+				<div class="top-right">
+					<div class="nickname">
+						<a href="{{handler.user_url(item.author)}}">{{item.author.getname()}}</a>
+					</div>
+					<div class="time">{{item.update_time}}</div>
+				</div>
+			</div>
+			<h2 class="title"><a href="{{handler.article_url(item)}}">{{item.title}}</a></h2>
+			<p>{{item.description[:60]}}</p>
+			<div class="tags">
+				<i class="icon icon-tags"></i>
+				{%- for tag in item.tagv -%}
+					<span class="tag">{{tag}}</span>
+				{%- endfor -%}
+			</div>
+			<div class="nums">
+				<i class="icon icon-view"></i> {{item.view_count}}
+				<i class="icon icon-comments"></i> {{item.comment_count}}
+			</div>
+		</li>
+	{%- endfor %}
+	</ul>
 {%- endblock %}

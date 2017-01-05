@@ -13,12 +13,6 @@ ROUTE_METHOD = 4
 fn_hname = lambda name: name + settings.handle_fn_suffix
 cls_hname = lambda name: name.title().replace('-', '') + settings.handle_class_suffix
 
-
-# 尝试获取处理器
-# def get_module_handler(module, name, default):
-# 	v = lambda n, f: getattr(module, f(n), None)
-# 	return v(name, fn_handler) or v(name, cls_handler) or v(default, fn_handler) or v(default, cls_handler)
-
 # 预处理路由
 def prepare_route(route):
 	last = route[-1]
@@ -67,8 +61,6 @@ def dispatch(url):
 			if method:
 				route_type |= ROUTE_METHOD
 				ins = callee(route, route_type)
-				# 调用类的before方法
-				# before = getattr(ins, 'before', None)
 				result = ins.oninit() or method(ins)
 			else:
 				result = '%s不存在%s方法' % (callee.__name__, action)
@@ -100,10 +92,11 @@ class BaseHandler:
 	STAY = '', 204
 	REFRESH = '', 200, {"Refresh": "0"}
 
+	ARG_NONE = object()
+
 	def __init__(self, route, route_type):
 		self.route = tuple(route)
 		self.route_type = route_type
-		self.oninit()
 
 	# 在url调用其他方法前执行，如果有返回值则直接返回，不调用其他方法
 	# 可用于在整个类的验证登录
@@ -144,13 +137,18 @@ class BaseHandler:
 		"""
 		return dirname + '/' + self.route[-1]
 
-	def page_url(self, route):
+	def page_url(self, route, **query):
 		"""
 		生成页面url
 		/开头的路由表示跨应用
 		"""
-		route = self.url(route, True) + settings.FILE_EXT
-		return route
+		url = self.url(route, True)
+		if settings.FAKE_STATIC:
+			url += settings.FAKE_STATIC_EXT
+		if query:
+			query_str = '&'.join(key+'='+extypes.astr(val) for key, val in query.items())
+			url += ('&' if '?' in url else '?') + query_str
+		return url
 
 	def static_url(self, filename, parent=''):
 		"""生成静态资源url"""
@@ -176,13 +174,16 @@ class BaseHandler:
 			del route[level+1:]
 		route[-1] = name
 		url = '/' + '/'.join(route)
-		if name:
-			url += settings.FILE_EXT
+		if name and settings.FAKE_STATIC:
+			url += settings.FAKE_STATIC_EXT
 		return url
 
-	def get_arg(self, key, default = ''):
+	def get_arg(self, key, default=ARG_NONE):
 		"""获取参数，包括get和form"""
-		return self.request.values.get(key, default)
+		value = self.request.values.get(key, default)
+		if value is self.ARG_NONE:
+			raise ValueError('miss arg ' + key)
+		return value
 
 	def get_args(self, keys):
 		return extypes.Map({key: self.request.values.get(key, '') for key in keys})
@@ -201,6 +202,11 @@ class BaseHandler:
 				value = self.request.values.get(key, '')
 			args[key] = value
 		return args
+
+	def goback(self):
+		refer = self.request.headers.get('referer', None)
+		if refer:
+			return self.redirect(refer)
 
 	@property
 	def appid(self):

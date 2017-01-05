@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block head %}
+	{{super()}}
+	{% css 'user-home', True%}
+	{% css 'user-box', True%}
+{% endblock %}
+{% block main -%}
+	<div class="left">
+		<div class="user-box">
+			<div class="head">
+				<img class="avatar" src="{{handler.img_url(user.avatar)}}" alt="{{user.getname()}}">
+				<div class="name">
+					<span class="nickname">{{user.getname()}}</span>
+					<span class="gender"></span>
+				</div>
+				<div class="email">{{user.email}}</div>
+			</div>
+			<div class="anchors">
+				<a href="{{handler.action('article')}}"> <span class="num">{{user.article_count}}</span>博客 </a>
+				<a href="{{handler.action('follow')}}"><span class="num">{{user.follow_count}}</span>关注</a>
+				<a href="{{handler.action('fans')}}"><span class="num">{{user.fans_count}}</span>粉丝</a>
+			</div>
+			{% block extbtns %}{% endblock %}
+		</div>
+		<ul class="menus">
+			{%- for key, title, icon in menu %}
+			<li class="{{key}}{%if key==handler.route[-1]%} active{%endif%}">
+				<a href="{{handler.action(key)}}">
+					<i class="icon icon-{{icon}}"></i>
+					<span class="title">{{title}}</span>
+				</a>
+			</li>
+			{%- endfor %}
+		</ul>
+	</div>
+	<div class="right">
+		{% block content %}{%- endblock %}
+	</div>
+{%- endblock %}

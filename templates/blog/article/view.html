@@ -5,36 +5,53 @@
 	{% css 'markdown', True %}
 	{%  js 'marked.min', True %}
 	{% css 'article-view', True %}
+	{% css 'user-box', True %}
 {% endblock %}
 {% block main %}
 	<div class="right">
-		<div class="authorbox block">
+		{%- if article.author.id != handler.user.id %}
+		{%- set q_author = '?id=%d' % article.author.id %}
+		<div class="user-box block">
 			<div class="head">
-				<img class="avatar" src="{{handler.img_url('avatar-default.png')}}" alt="{{article.author.nickname}}"/>
-				<div class="name">
-					<span class="nickname">{{article.author.nickname}}</span>
-					<!-- <span class="gender">{{article.author.gender}}</span> -->
-				</div>
+				<a href="{{handler.page_url('user') + q_author}}">
+					<img class="avatar" src="{{handler.img_url('avatar-default.png')}}" alt="{{article.author.nickname}}"/>
+					<div class="name">
+						<span class="nickname">{{article.author.getname()}}</span>
+					</div>
+				</a>
 			</div>
 			<div class="anchors">
-				<a href="{{handler.action('user/article')}}"><span class="num">{{article.author.article_count}}</span>博客</a>
-				<a href="{{handler.action('user/follow')}}"><span class="num">{{article.author.follow_count}}</span>关注</a>
-				<a href="{{handler.action('user/fans')}}"><span class="num">{{article.author.fans_count}}</span>粉丝</a>
-			</div>
-			<div class="follow">
-				关注
+				<a href="{{handler.page_url('user/article') + q_author}}">
+					<span class="num">{{article.author.article_count}}</span>博客
+				</a>
+				<a href="{{handler.page_url('user/follow') + q_author}}">
+					<span class="num">{{article.author.follow_count}}</span>关注
+				</a>
+				<a href="{{handler.page_url('user/fans') + q_author}}">
+					<span class="num">{{article.author.fans_count}}</span>粉丝
+				</a>
 			</div>
 		</div>
 
 		<div class="author-articles block">
-			<h3>作者的其他文章 <a href="" class="more">全部</a></h3>
+			<h3>作者的其他文章 <a href="{{handler.page_url('user/article') + q_author}}" class="more">全部</a></h3>
 			<ul>
-				<li><a href="#">端午徒步武功山，看山看草看云海。</a></li>
+			{%- for item in author_other %}
+				<li><a href="?id={{item.id}}">{{item.title}}</a></li>
+			{% else %}
+				<div>没有了</div>
+			{%- endfor %}
 			</ul>
 		</div>
+		{% endif %}
 
 		<div class="hot-articles block">
-			<h3>热门推荐 <a href="" class="more">全部</a></h3>
+			<h3>热门推荐 <a href="{{handler.page_url('hot')}}" class="more">全部</a></h3>
+			<ul>
+			{%- for item in hot %}
+				<li><a href="?id={{item.id}}">{{item.title}}</a></li>
+			{%- endfor %}
+			</ul>
 		</div>
 	</div>
 
@@ -42,19 +59,52 @@
 		<h1 class="article-title">{{article.title}}</h1>
 		<div class="top">
 			<div class="nums">
-				<i class="icon icon-view"></i> 0
-				<i class="icon icon-comments"></i> 0
+				<i class="icon icon-view"></i> {{article.view_count}}
+				<i class="icon icon-comments"></i> {{article.comment_count}}
 				<i class="icon icon-time"></i> {{article.update_time}}
 			</div>
 			<div class="tags">
 				<i class="icon icon-tags"></i>
-				{%- for tag in article.tags.split(',') -%}
+				{%- for tag in article.tagv -%}
 					<span class="tag">{{tag}}</span>
 				{%- endfor -%}
 			</div>
 		</div>
-		<div class="content">
-			<script>document.write(marked("{{article.content}}"))</script>
-		</div>
+		<div id="content"><pre>{{article.content}}</pre></div>
+	</div>
+
+	<script> content.innerHTML = marked(content.innerText); </script>
+
+	<div class="block comments">
+		{%- if handler.user %}
+		<form class="comment-box" action="comment" method="post">
+			<input type="hidden" name="id" value="{{article.id}}">
+			<textarea name="body" placeholder="在这里发表您的看法吧~" required></textarea>
+			<div class="comment-btn">
+				<button>评论</button>
+			</div>
+		</form>
+		{% else %}
+		<p class="hint">要先<a href="{{handler.page_url('login?next')}}">登录</a>才能评论~</p>
+		{% endif -%}
+
+		<h2>精彩评论</h2>
+
+		<ul>
+		{%- for item in comments %}
+			<li class="comment">
+				<div class="top">
+					<img src="{{handler.img_url('avatar-default.png')}}" alt="" class="avatar">
+					<div class="top-right">
+						<a class="nickname" href="{{handler.user_url(getuser(item.user_id))}}">{{getuser(item.user_id).getname()}}</a>
+						<span class="time">{{item.time}}</span>
+					</div>
+				</div>
+				<p class="body">{{item.body}}</p>
+			</li>
+		{% else %}
+			<p class="hint">还没有评论~</p>
+		</ul>
+		{%- endfor %}
 	</div>
 {% endblock %}

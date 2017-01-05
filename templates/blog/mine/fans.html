@@ -1,6 +1,2 @@
-{% if not handler.is_ajax %}
-	{% extends "blog/mine/base.html" %}
-{% endif %}
-{% block content -%}
-	个人设置
-{%- endblock %}
+{% extends self.brother('follow') %}
+{% block page_title %}我的粉丝{% endblock %}

@@ -28,23 +28,33 @@ class Article(BaseModel):
 	author        = pw.ForeignKeyField(User, related_name='articles')
 	title         = pw.CharField(32, verbose_name="标题")
 	tags          = pw.CharField(64, verbose_name="标签")
-	content       = pw.CharField(255, verbose_name="内容")
+	description   = pw.CharField(255, verbose_name="摘要")
+	content       = pw.CharField(4096, verbose_name="内容")
 	create_time   = pw.DateTimeField(verbose_name="创建时间")
 	update_time   = pw.DateTimeField(verbose_name="更新时间")
 	status        = pw.SmallIntegerField(verbose_name="状态", default=DRAFT)
+	view_count    = pw.IntegerField(default=0)
 	comment_count = pw.IntegerField(default=0)
+	# praise_count  = pw.IntegerField(default=0)
+
+	@property
+	def tagv(self):
+		return self.tags.split(',')
+
+	@classmethod
+	def find_public(cls):
+		return cls.find().where(cls.status == cls.PUBLISHED)
 
 
 class ArticleTag(BaseModel):
-	id   = pw.PrimaryKeyField()
-	name = pw.CharField(16, verbose_name="名称")
+	name = pw.CharField(32, primary_key=True)
 
 
 class ArticleComment(BaseModel):
 	article = pw.ForeignKeyField(Article)
 	user    = pw.ForeignKeyField(User)
 	time    = pw.DateTimeField(verbose_name="创建时间")
-	body    = pw.DateTimeField(verbose_name="评论内容")
+	body    = pw.CharField(255, verbose_name="评论内容")
 
 
 # class Admin(BaseModel):

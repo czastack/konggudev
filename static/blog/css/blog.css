@@ -3,7 +3,8 @@ html, body {
   height: 100%; }
 
 .wrap {
-  min-height: 100%; }
+  min-height: 100%;
+  background-color: #f5f5f5; }
 
 .aside-right {
   position: fixed;
@@ -73,7 +74,7 @@ html, body {
 
 @font-face {
   font-family: 'icon';
-  src: url("../fonts/icon.woff2") format("woff2");
+  src: url("../fonts/icon.woff2") format("woff2"), url("../fonts/icon.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
@@ -81,7 +82,7 @@ html, body {
   font-family: 'icon';
   display: inline-block;
   font-style: normal;
-  width: 16px;
+  min-width: 16px;
   height: 16px; }
 
 .icon-search:before {
@@ -92,6 +93,9 @@ html, body {
 
 .icon-setting:before {
   content: ""; }
+
+.icon-delete:before {
+  content: ""; }
 
 .icon-star:before {
   content: ""; }
@@ -119,6 +123,19 @@ html, body {
 
 .icon-view:before {
   content: ""; }
+
+.tags .icon {
+  color: #989898; }
+
+.tags .tag {
+  color: #fff;
+  background: #999;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-left: 10px;
+  border: none;
+  outline: none; }
 
 .qrcode-wrapper {
   position: absolute;

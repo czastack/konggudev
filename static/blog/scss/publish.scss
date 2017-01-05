@@ -13,8 +13,8 @@
         margin: 0;
     }
 
-    .blog_title, .blog_tags {
-        margin: 5px;
+    .blog-control {
+        margin: 10px;
 
         input {
             width: 100%;
@@ -25,9 +25,7 @@
             font-size: 14px;
         }
     }
-    .blog_tags {
-        margin-top: 10px;
-        
+    .blog-tags {
         input {
             height: 30px;
         }
