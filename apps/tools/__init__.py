@@ -1,2 +1,2 @@
-def qrcode(handler):
+def qrcode_handle(handler):
 	return handler.render()
