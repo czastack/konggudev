@@ -27,7 +27,7 @@ import lib.extends
 
 from lib import handler
 
-@app.route('/<path:url>', methods=['GET', 'POST'])
+@app.route('/<path:url>', methods=('GET', 'POST'))
 def default(url):
 	return handler.dispatch(url)
 

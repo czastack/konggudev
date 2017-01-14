@@ -13,17 +13,17 @@ ROUTE_METHOD = 4
 fn_hname = lambda name: name + settings.handle_fn_suffix
 cls_hname = lambda name: name.title().replace('-', '') + settings.handle_class_suffix
 
-# 预处理路由
-def prepare_route(route):
+
+def dispatch(url):
+	"""分发请求，根据 pathinfo 调用相应的模块"""
+	# 1: app, 2: module, 3: function or class, 4: method
+	route = url.split('/', 4)
+	# 去掉伪静态后缀
 	last = route[-1]
 	if last.endswith(settings.FILE_EXT):
 		last = last[:-len(settings.FILE_EXT)]
 	route[-1] = last
 
-def dispatch(url):
-	# 1: app, 2: module, 3: function or class, 4: method
-	route = url.split('/', 4)
-	prepare_route(route)
 	IDX = 'index'
 	index = lambda: route.append(IDX) or IDX
 	len(route) == 1 and index()
@@ -49,10 +49,11 @@ def dispatch(url):
 		v = lambda n: getattr(module, n, None)
 		callee = v(fn_hname(name)) or v(cls_hname(name)) or v(
 			settings.handle_fn_default) or v(settings.handle_class_default)
-		
+		delegate = None
+
 		if isinstance(callee, types.FunctionType):
 			route_type |= ROUTE_FUNC
-			result = callee(BaseHandler(route, route_type))
+			delegate = HandlerDelegate(None, callee, route, route_type)
 		elif isinstance(callee, type):
 			if callee.__name__ == settings.handle_class_default:
 				lv_class -= 1
@@ -60,24 +61,42 @@ def dispatch(url):
 			method = getattr(callee, action, None) or getattr(callee, 'default', None)
 			if method:
 				route_type |= ROUTE_METHOD
-				ins = callee(route, route_type)
-				result = ins.oninit() or method(ins)
+				delegate = HandlerDelegate(callee, method, route, route_type)
 			else:
 				result = '%s不存在%s方法' % (callee.__name__, action)
 		else:
 			result = '404'
+		if delegate:
+			result = delegate()
+			endpoint = hex(id(delegate))
+			rule = app.url_rule_class('/' + url, methods={'GET', 'POST'}, endpoint=endpoint)
+			app.url_map.add(rule)
+			app.view_functions[endpoint] = delegate
 	except Exception as e:
 		import traceback
 		result = traceback.format_exc()
-	if not (isinstance(result, str) or isinstance(result, tuple) or result.__class__.__name__ == 'Response'):
-		result = str(result)
 	return result
 
-# 找不到控制器时尝试直接渲染路由对应的模板文件
-# 要在子模块中import才有效果
-# 使用: from . import direct_render as default_handler
-def direct_render(handler):
-	return handler.render()
+
+class HandlerDelegate:
+	__slots__ = ('handler_t', 'func', 'route', 'route_type')
+
+	def __init__(self, *args):
+		i = len(args)
+		while i >= 0:
+			i -= 1;
+			setattr(self, self.__slots__[i], args[i])
+
+	def __call__(self):
+		if self.handler_t is None:
+			result = self.func(BaseHandler(self.route, self.route_type))
+		else:
+			ins = self.handler_t(self.route, self.route_type)
+			result = ins.oninit() or self.func(ins)
+		if not (isinstance(result, str) or isinstance(result, tuple) or result.__class__.__name__ == 'Response'):
+			result = str(result)
+		return result
+
 
 class BaseHandler:
 	"""
